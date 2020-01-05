@@ -6,4 +6,4 @@ all -- 2019-12-31 22:50
 Team snip_snip formed, chose Derek Leung as project manager. Initialized repo, linked submodule
 
 chenT -- 2020-01-05
-created devlog, added pdf of APIs into repo w/ proper names
+created devlog, added pdf of APIs into repo w/ proper names, edit .gitignore
