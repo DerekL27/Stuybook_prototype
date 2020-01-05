@@ -1,0 +1,9 @@
+StuyBook by Team snip_snip -- Tammy Chen, Grace Mao & Derek Leung
+SoftDev1 pd9
+P #02 — The End
+
+all -- 2019-12-31 22:50
+Team snip_snip formed, chose Derek Leung as project manager. Initialized repo, linked submodule
+
+chenT -- 2020-01-05
+created devlog, added pdf of APIs into repo w/ proper names
