@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
+
+{% block body %}
+
+<div class="container text-center p-2">
+    <h2>Signup</h2>
+</div>
+
+<div class="container-fluid">
+  <form action="/register" method="POST">
+    <div class="row">
+      <div class="col-md p-2">
+        <div class="form-group">
+          <label for="user">Enter Username</label>
+          <input class="form-control" id="user" name="username" placeholder="graceiscool123" required>
+        </div>
+        <div class="form-group">
+          <label for="display">Choose Your Display Name</label>
+          <input class="form-control" id="display" name ="displayname" placeholder="Grace M" required>
+        </div>
+      </div>
+      <div class="col-md p-2">
+        <div class="form-group">
+          <label for="pass">Enter Password</label>
+          <input type="password" class="form-control" id="pass" name ="password" placeholder="1234567890" required>
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" class="form-control" id="confirm" name="password2" placeholder="1234567890" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button type="button" class="btn btn-primary">Sign Up</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+{% endblock %}
