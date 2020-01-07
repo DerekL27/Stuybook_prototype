@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 DB_FILE = "database.db"
-db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()
 
 setup(c)
@@ -41,8 +41,8 @@ def register():
     password = request.form['password']
     password2 = request.form['password2']
     displayname = request.form['displayname']
-    email = request.form['email'] + "@stuy.edu"
-    c.execute("SELECT username FROM users WHERE username = %s" % username);
+    email = "{}@stuy.edu".format(request.form['email'])
+    c.execute("SELECT username FROM users WHERE username = '%s'" % username);
     a = c.fetchone()
     if a != None:
         error = 'Username Already Taken'
@@ -50,9 +50,9 @@ def register():
     if password != password2:
         error = 'Passwords Don\'t Match'
         return render_template('signup.html', error=error);
-    dbfunc.createUser(c, username, password, displayname, email)
+    createUser(c, username, password, displayname, email)
     db.commit()
-    return redirect(url_for('login'))
+    return redirect(url_for('myprofile'))
 
 @app.route("/auth", methods=['POST'])
 def auth():
@@ -60,7 +60,7 @@ def auth():
         return redirect(url_for('home'))
     username = request.form['username']
     password = request.form['password']
-    c.execute("SELECT userID, password FROM users WHERE username = %s" % username)
+    c.execute("SELECT userID, password FROM users WHERE username = '%s'" % username)
     a = c.fetchone()
     if a == None:
         error = 'Username Not Found'
@@ -75,6 +75,10 @@ def auth():
 @app.route("/home")
 def home():
     return "Hello World"
+
+@app.route("/myprofile")
+def profile():
+    return "Woah!"
 
 if __name__ == "__main__":
     app.debug = True
