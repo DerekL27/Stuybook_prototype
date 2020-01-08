@@ -18,3 +18,6 @@ Updated design doc (revision 0) and added team flag
 maoG -- 2020-01-06 21:04
 Created app.py, login signup and base templates, and database function
 file, setup with login mechanisms yet to be tested
+
+leungD -- 2020-01-07 21:27
+Did docstring
