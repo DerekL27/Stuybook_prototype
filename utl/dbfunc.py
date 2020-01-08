@@ -10,3 +10,4 @@ def setup(c):
 
 def createUser(c, username, password, displayname, email):
     c.execute("INSERT INTO users VALUES(NULL, '%s', '%s', '%s', '%s')" % (email, username, password, displayname))
+    c.edecute("INSERT INTO schedules VALUES()")
