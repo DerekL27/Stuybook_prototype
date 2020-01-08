@@ -28,7 +28,7 @@ Our project is aimed towards providing a fully functional networking site for St
 - If not, install Python3 from https://www.python.org/downloads/
 - pip comes installed with Python by default
 
-#### To Clone the Project:
+#### To clone the project:
 ```bash
 $ git clone git@github.com:KingDerek1/DerekIsCool.git
 ```
@@ -41,7 +41,7 @@ $ . ~/<name of virtual environment>/bin/activate
 (venv)/<name of cloned directory>$ pip3 install -r doc/requirements.txt
 ```
 
-#### To Run the project:
+#### To run the project:
 **Note: No API keys are needed for this project to run, so this should run without any issues.**
 ```bash
 $ cd <name of cloned directory>

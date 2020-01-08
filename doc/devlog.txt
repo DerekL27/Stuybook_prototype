@@ -5,7 +5,7 @@ P #02 — The End
 all -- 2019-12-31 22:50
 Team snip_snip formed, chose Derek Leung as project manager. Initialized repo, linked submodule
 
-chenT -- 2020-01-05 17:40
+tammyC -- 2020-01-05 17:40
 created devlog, added pdf of APIs into repo w/ proper names, edit .gitignore
 
 all -- 2020-01-06 14:47
@@ -15,9 +15,12 @@ Updated design doc (revision 0) and added team flag
         -added javascript responsibility (Grace)
         -clarified pm (Derek)
 
-maoG -- 2020-01-06 21:04
+graceM -- 2020-01-06 21:04
 Created app.py, login signup and base templates, and database function
 file, setup with login mechanisms yet to be tested
 
-leungD -- 2020-01-07 21:27
+derekL -- 2020-01-07 21:27
 Did docstring
+
+tammyC -- 2020-01-08 14:43
+Updated README.md into alignment with project specifications
