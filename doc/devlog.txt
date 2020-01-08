@@ -24,3 +24,6 @@ Did docstring
 
 tammyC -- 2020-01-08 14:43
 Updated README.md into alignment with project specifications
+
+derekL -- 2020-01-08 14:59
+Did database stuff
