@@ -4,10 +4,10 @@
 - Grace Mao (HTML/Jinja/JavaScript)
 - Derek Leung (Database & Project Manager)
 
-## What our website does:
+## Project Description
 Our project is aimed towards providing a fully functional networking site for Stuyvesant students, mostly geared towards self-management, entertainment, and community. By incorporating REST APIs, JavaScript, Flask, and databases managed by SQLite, our site will allow users to meet other Stuy students and develop their personal profiles for multiple uses.
 
-## APIs utilized:
+## APIs Utilized:
 [PurgoMalum](https://www.purgomalum.com/)
   - We use this API to assure that no curse words are used in posts.
 
@@ -28,7 +28,7 @@ Our project is aimed towards providing a fully functional networking site for St
 - If not, install Python3 from https://www.python.org/downloads/
 - pip comes installed with Python by default
 
-#### To clone the project:
+#### To Clone the Project:
 ```bash
 $ git clone git@github.com:KingDerek1/DerekIsCool.git
 ```
@@ -41,7 +41,7 @@ $ . ~/<name of virtual environment>/bin/activate
 (venv)/<name of cloned directory>$ pip3 install -r doc/requirements.txt
 ```
 
-#### To run the project:
+#### To Run the project:
 **Note: No API keys are needed for this project to run, so this should run without any issues.**
 ```bash
 $ cd <name of cloned directory>
