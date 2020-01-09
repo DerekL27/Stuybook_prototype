@@ -27,3 +27,6 @@ Updated README.md into alignment with project specifications
 
 derekL -- 2020-01-08 14:59
 Did database stuff
+
+derekL -- 2020-01-09 14:56
+Did database stuff part 2: bug fixes and taking out unnecessary stuff
