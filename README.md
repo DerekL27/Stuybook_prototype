@@ -29,17 +29,25 @@ Our project is aimed towards providing a fully functional networking site for St
 - pip comes installed with Python by default
 
 #### To clone the project:
-```bash
-$ git clone git@github.com:tchen00/MKS65-FinalProject.git
-```
+``` bash
+$ git clone git@github.com:KingDerek1/DerekIsCool.git	
+``` 
 
+#### To create a virtual environment and install all packages in the virtual environment:	
+```bash	
+$ python3 -m venv <name of virtual environment>	
+$ . ~/<name of virtual environment>/bin/activate  	
+(venv)$ cd <name of cloned directory>	
+(venv)/<name of cloned directory>$ pip3 install -r doc/requirements.txt	
+```
 #### To run the project:
 **Note: No API keys are needed for this project to run, so this should run without any issues.**
-```bash
-$ cd MKS65-FinalProject
-$ make
-$ make run
+``` bash
+$ cd <name of cloned directory>	
+/<name of cloned directory>$ python3 app.py	
 ```
 
----
-© Copyright 2020 Team bat -- Tammy Chen, Bernard Wang & Alvin Yao
+View the webpage by opening a web browser and visiting: http://127.0.0.1:5000/	
+
+---	---
+© Copyright 2020 Team snip_snip -- Tammy Chen, Grace Mao & Derek Leung
