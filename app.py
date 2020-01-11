@@ -90,6 +90,14 @@ def profile():
     """Returns profile page"""
     return "Woah!"
 
+@app.route("/logout")
+def logout():
+    """Removes user session, redirects to login page"""
+    if 'user' in session:
+        session.clear()
+        return redirect(url_for("login"))
+    return redirect(url_for("root"))
+
 """
 #########################################################
 #                  TRIVIA MINIGAME                      #
