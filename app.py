@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import urllib.request as urlrequest
 import json
 import sqlite3, os
-from utl.dbfunc import *
+from utl.dbfunc import setup, createUser
 
 app = Flask(__name__)
 
