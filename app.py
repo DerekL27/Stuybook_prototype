@@ -90,6 +90,52 @@ def profile():
     """Returns profile page"""
     return "Woah!"
 
+"""
+#########################################################
+#                  TRIVIA MINIGAME                      #
+#########################################################
+
+#shuffles the choices up so that the answers are not always the first choice
+def shuffle(q):
+    selected_keys = []
+    i = 0
+    while i < len(q):
+        if list(q.keys())[i] not in selected_keys:
+            selected_keys.append(list(q.keys())[i])
+            i += 1
+    return selected_keys
+
+@app.route("/trivia")
+def trivia():
+    dbfunctions.createTables(c)
+    dbfunctions.addQuestions(c)
+    original_questions = dbfunctions.questBank(c)
+    questions_shuffled = shuffle(original_questions)
+    for i in original_questions.keys():
+        random.shuffle(original_questions[i])
+    return render_template('trivia.html', q = questions_shuffled, o = original_questions)
+
+@app.route('/triviaresults', methods=['POST'])
+def triviaresults():
+    correct = 0;
+    userID = session['userID']
+    original_questions = dbfunctions.questBank(c)
+    answers = dbfunctions.answerBank(c)
+    if request.method == 'POST':
+        for i in original_questions.keys():
+            answered = request.form[i]
+            if original_questions[i][0] == answered:
+                correct += 1
+        original_question = {}
+    else:
+        return render_template('triviaresults.html', correct = correct, answers = answers)
+    dbfunctions.updateStats(c, userID, intelligence = (correct * 3), xp = (correct * 5), gold = (correct * 2)) # each question correct is +3 to intelligence
+    stats = dbfunctions.getStats(c, str(userID))
+    currXP = stats['xp']
+    leveledUp = dbfunctions.levelUp(currXP-(5 * correct), currXP)
+    return render_template('triviaresults.html', correct = correct, answers = answers, intelligence = stats['intelligence'], xp = currXP, leveledUp = leveledUp, gold = (correct * 2))
+"""
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
