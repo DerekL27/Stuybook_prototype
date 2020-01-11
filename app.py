@@ -81,9 +81,9 @@ def auth():
 @app.route("/home")
 def home():
     """Returns Home Page"""
-    if "userID" not in session:
-        return redirect(url_for('login'))
-    return render_template('home.html', username=session['username'])
+    #if "userID" not in session:
+    #    return redirect(url_for('login'))
+    return render_template('home.html')
 
 @app.route("/myprofile")
 def profile():
