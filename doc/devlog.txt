@@ -35,7 +35,10 @@ derekL -- 2020-01-10 14:56
 Did database stuff part 3: adding in more database stuff
 
 tammyC -- 2020-01-10 23:12
-Working on the games in social media (reusing code from last project) 
+Working on the games in social media (reusing code from last project)
 
-tammyC -- 2020-01-11 12:18 
-Fixed up navbar + made separate html file for it 
+tammyC -- 2020-01-11 12:18
+Fixed up navbar + made separate html file for it
+
+derekL -- 2020-01-11 18:20
+Did database stuff part 4: found way to put list into blob and fixed a broken url redirect in app.py
