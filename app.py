@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import urllib.request as urlrequest
 import json
 import sqlite3, os
-from utl.dbfunc import setup, createUser
+from utl.dbfunc import *
 
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ def register():
         return render_template('signup.html', error=error);
     createUser(c, username, password, displayname, email)
     db.commit()
-    return redirect(url_for('myprofile'))
+    return redirect(url_for('profile'))
 
 @app.route("/auth", methods=['POST'])
 def auth():

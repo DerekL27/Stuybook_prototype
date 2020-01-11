@@ -1,5 +1,6 @@
 import urllib.request as request
 import json
+import marshal
 
 def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT)')
@@ -11,12 +12,18 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
 
-def countRows(table):
+def blobify(data):
+    return marshal.dumps(data)
+
+def unblob(stuff):
+    return marshal.loads(stuff)
+
+def countRows(c,table):
     c.execute("SELECT COUNT(*) FROM {}".format(table))
-    return c.fetchall()[0]
+    return c.fetchall()[0][0]
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email):
-    nextIndex = countRows("users")
-    c.execute("INSERT INTO userdata VALUES (?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname))
-    c.execute("INSERT INTO schedules VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?),(nextIndex,[null,null,null,null,null,null,null,null,null,null]) ")
+    nextIndex = int(countRows(c,"users"))
+    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname))
+    c.execute("INSERT INTO schedules VALUES(?, ?)",(nextIndex,blobify([None,None,None,None,None,None,None,None,None,None])))
