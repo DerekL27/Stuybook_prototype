@@ -43,3 +43,4 @@ Fixed up navbar + made separate html file for it
 derekL -- 2020-01-11 18:20
 Did database stuff part 4: found way to put list into blob and fixed a broken url redirect in app.py
 Also did logout button
+Also made proto-profile page

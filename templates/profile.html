@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}  {{displayName}}'s Profile {% endblock %}
+
+{% block body %}
+{{displayName}}'s Profile
+<br>
+Schedule:
+<br>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Period</th>
+      <th scope="col">Course</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in schedule %}
+    <tr>
+      <td> {{loop.index}} </td>
+      <td> {{i}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

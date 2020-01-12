@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import urllib.request as urlrequest
 import json
 import sqlite3, os
-from utl.dbfunc import setup, createUser
+from utl.dbfunc import setup, createUser, getSchedule
 
 app = Flask(__name__)
 
@@ -88,7 +88,11 @@ def home():
 @app.route("/myprofile")
 def profile():
     """Returns profile page"""
-    return "Woah!"
+    c.execute("SELECT username, displayName FROM users WHERE userID = '{}'".format(session["userID"]))
+    bruh = c.fetchall()
+    schedule = getSchedule(c,session["userID"])
+    print(schedule)
+    return render_template('profile.html',username = bruh[0][0], displayName = bruh[0][1], schedule = schedule)
 
 @app.route("/logout")
 def logout():

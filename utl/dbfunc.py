@@ -27,3 +27,7 @@ def createUser(c, username, password, displayname, email):
     nextIndex = int(countRows(c,"users"))
     c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname))
     c.execute("INSERT INTO schedules VALUES(?, ?)",(nextIndex,blobify([None,None,None,None,None,None,None,None,None,None])))
+
+def getSchedule(c,userID):
+    c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))
+    return unblob(c.fetchall()[0][0])
