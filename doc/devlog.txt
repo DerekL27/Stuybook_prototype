@@ -23,7 +23,7 @@ derekL -- 2020-01-07 21:27
 Did docstring
 
 graceM -- 2020-01-04 23:53
-Added bootstrap to existing templates, struggled with navbar, created 
+Added bootstrap to existing templates, struggled with navbar, created
 several app routes
 
 tammyC -- 2020-01-08 14:43
@@ -55,3 +55,6 @@ Added the screenshots of avatars into static folder
 
 graceM -- 2020-01-13 00:29
 Created alerts for authorizing login and register
+
+tammyC -- 2020-01-13 15:16
+Begin work on games, made minor edits to profile, fixed db issue
