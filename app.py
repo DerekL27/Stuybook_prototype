@@ -54,7 +54,7 @@ def register():
     if password != password2:
         error = 'Passwords Don\'t Match'
         return render_template('signup.html', error=error, message='Make sure to confirm your password correctly!');
-    createUser(c, username, password, displayname, email, "./static/MykPic.jpg")
+    createUser(c, username, password, displayname, email, "/static/MykPic.jpg")
     db.commit()
     c.execute("SELECT userID, username FROM users WHERE username = '%s'" % username)
     a = c.fetchone()
