@@ -50,12 +50,17 @@ def register():
     a = c.fetchone()
     if a != None:
         error = 'Username Already Taken'
-        return render_template('signup.html', error=error);
+        return render_template('signup.html', error=error, message='Please choose a different name.');
     if password != password2:
         error = 'Passwords Don\'t Match'
-        return render_template('signup.html', error=error);
-    createUser(c, username, password, displayname, email)
+        return render_template('signup.html', error=error, message='Make sure to confirm your password correctly!');
+    createUser(c, username, password, displayname, email, "./static/MykPic.jpg")
     db.commit()
+    c.execute("SELECT userID, username FROM users WHERE username = '%s'" % username)
+    a = c.fetchone()
+    session['userID'] = a[0]
+    session['username'] = a[1]
+    session['registered'] = True
     return redirect(url_for('profile'))
 
 @app.route("/auth", methods=['POST'])
@@ -70,10 +75,10 @@ def auth():
     a = c.fetchone()
     if a == None:
         error = 'Username Not Found'
-        return render_template('login.html', error=error)
+        return render_template('login.html', error=error, message="Did you enter the right username?")
     if password != a[1]:
         error = 'Password Incorrect'
-        return render_template('login.html', error=error)
+        return render_template('login.html', error=error, message="Wrong password... it happens to the best of us.")
     session['userID'] = a[0]
     session['username'] = username
     return redirect(url_for('home'))
@@ -81,23 +86,40 @@ def auth():
 @app.route("/home")
 def home():
     """Returns Home Page"""
-    #if "userID" not in session:
-    #    return redirect(url_for('login'))
-    return render_template('home.html')
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('home.html', user=session["username"])
 
 @app.route("/myprofile")
 def profile():
     """Returns profile page"""
-    c.execute("SELECT username, displayName FROM users WHERE userID = '{}'".format(session["userID"]))
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    if "registered" in session:
+        message = True
+        session.pop("registered")
+    else:
+        message = False
+    c.execute("SELECT username, displayName, image, email FROM users WHERE userID = '{}'".format(session['userID']))
     bruh = c.fetchall()
     schedule = getSchedule(c,session["userID"])
     print(schedule)
-    return render_template('profile.html',username = bruh[0][0], displayName = bruh[0][1], schedule = schedule)
+    return render_template('profile.html', username = bruh[0][0],
+                                           displayName = bruh[0][1],
+                                           schedule = schedule,
+                                           image = bruh[0][2],
+                                           email = bruh[0][3], message=message)
+
+@app.route("/settings")
+def settings():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('settings.html')
 
 @app.route("/logout")
 def logout():
     """Removes user session, redirects to login page"""
-    if 'user' in session:
+    if 'userID' in session:
         session.clear()
         return redirect(url_for("login"))
     return redirect(url_for("root"))
