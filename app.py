@@ -124,6 +124,13 @@ def logout():
         return redirect(url_for("login"))
     return redirect(url_for("root"))
 
+@app.route("/games")
+def games():
+    """Returns Games Page"""
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('games.html', user=session["username"])
+
 """
 #########################################################
 #                  TRIVIA MINIGAME                      #
