@@ -164,9 +164,6 @@ def changing():
             return redirect(url_for('settings'))
         c.execute("SELECT password FROM users WHERE username = '%s'" % session['username'])
         a = c.fetchone()
-        print(request.form['check_password'])
-        print(a[0])
-        print(session['username'])
         if (request.form['check_password'] != a[0]): #old password not correct
             session["e2"] = True
             session["message"]="Incorrect Password"

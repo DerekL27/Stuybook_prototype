@@ -5,3 +5,8 @@ body {
 header {
   background-color: #EAF0F0;
 }
+
+.list-group-item {
+  background-color: #FFFFFF;
+  color: #0000FF;
+}
