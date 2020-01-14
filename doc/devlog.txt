@@ -58,3 +58,6 @@ Created alerts for authorizing login and register
 
 tammyC -- 2020-01-13 15:16
 Begin work on games, made minor edits to profile, fixed db issue
+
+tammyC -- 2020-01-13 22:53
+Tweaked trivia game code from last project & functional now! 
