@@ -6,7 +6,7 @@ var func = function() {
   div.innerHTML = `
     <div class="form-group">
         <div class="col-md-6">
-            <textarea class="form-control" rows="3" placeholder="What's up?" required></textarea>
+            <textarea class="form-control" rows="3" placeholder="What's up?" name="body" required></textarea>
         </div>
     </div>
   `;

@@ -39,6 +39,10 @@ def countRows(c,table):
     c.execute("SELECT COUNT(*) FROM {}".format(table))
     return c.fetchall()[0][0]
 
+def addPost(userID,text):
+    nextIndex = int(countRows(c,"posts"))
+    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
+
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
     nextIndex = int(countRows(c,"users"))

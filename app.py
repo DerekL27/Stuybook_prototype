@@ -204,6 +204,14 @@ def anagrams():
         return redirect(url_for('login'))
     return render_template('anagrams.html', user=session["username"])
 
+@app.route("/posting")
+def posting():
+    if(len(request.args) == 0): return None
+    if(len(request.args["body"].rstrip()) == 0):
+        flash("Body has no text!")
+    else:
+        addPost(session[userID],request.args["body"])
+
 
 #########################################################
 #                  TRIVIA MINIGAME                      #
