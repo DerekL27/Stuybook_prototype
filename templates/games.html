@@ -2,5 +2,26 @@
 {% block title %}  {{user}}'s Games {% endblock %}
 
 {% block body %}
-This is the games page
+<div class="p-3 mb-2 bg-info text-white text-center"> <h1> The Game Center </h1> </div>
+<div class="card-group">
+  <div class="card align-items-center">
+    <br>
+    <h3> Trivia Game </h3>
+    <a href="/trivia"> <img src="/static/trivia.jpg" width="250" height="250"> </a>
+    <br>
+  </div>
+  <div class="card align-items-center">
+    <br>
+    <h3> Superhero Deck Game </h3>
+    <a href="/superhero"> <img src="/static/superhero.jpg" width="250" height="250"> </a>
+    <br>
+  </div>
+  <div class="card align-items-center">
+    <br>
+    <h3> Anagrams Game </h3>
+    <a href="/anagrams"> <img src="/static/anagrams.jpg" width="250" height="250"> </a>
+    <br>
+  </div>
+</div>
+
 {% endblock %}

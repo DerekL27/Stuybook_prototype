@@ -131,6 +131,28 @@ def games():
         return redirect(url_for('login'))
     return render_template('games.html', user=session["username"])
 
+@app.route("/trivia")
+def trivia():
+    """Returns Trivia Page"""
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('trivia.html', user=session["username"])
+
+@app.route("/superhero")
+def superhero():
+    """Returns Superhero Page"""
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('superhero.html', user=session["username"])
+
+@app.route("/anagrams")
+def anagrams():
+    """Returns Anagrams Page"""
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('anagrams.html', user=session["username"])
+
+
 """
 #########################################################
 #                  TRIVIA MINIGAME                      #
