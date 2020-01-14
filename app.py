@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule
+from utl.dbfunc import setup, createUser, getSchedule, update_user
 import utl.dbfunc as dbfunc
 
 
@@ -117,7 +117,59 @@ def profile():
 def settings():
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('settings.html')
+    if "e1" not in session:
+        session["e1"] = False
+    if "e2" not in session:
+        session["e2"] = False
+    if "message" not in session:
+        session["message"] = ""
+    return render_template('settings.html', e1 = session["e1"], e2 = session["e2"], message=session["message"]);
+
+@app.route("/change_settings", methods=["POST"])
+def changing():
+    session["e1"] = False
+    session["e2"] = False
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    if (request.form['check_password'] == ''):
+        if (request.form['new_password'] != '' or request.form['confirm_password'] != ''): #if other password fields filled out, something's wrong
+            session["e2"] = True
+            session["message"]="Necessary Fields Not Filled Out"
+            return redirect(url_for('settings'))
+        # change Username
+        if (request.form['newusername'] == ''): #if username fields not filled out, something's wrong
+            session["e1"] = True
+            session["message"]="Necessary Fields Not Filled Out"
+            return redirect(url_for('settings'))
+        c.execute("SELECT username FROM users WHERE username = '%s'" % request.form['newusername'])
+        a = c.fetchone()
+        if (a != None): #username is in database already
+            session["e1"] = True
+            session["message"]="Username Already Taken"
+            return redirect(url_for('settings'))
+        update_user(session['username'], "username", request.form['newusername']) #updating the database imported
+        session['username'] = request.form['newusername']
+        return render_template('settings.html', changed1=True)
+    else: # password being changed
+        if (request.form['new_password'] == '' or request.form['confirm_password'] == ''): #if password fields not filled out, something's wrong
+            session["e2"] = True
+            session["message"]="Necessary Fields Not Filled Out"
+            return redirect(url_for('settings'))
+        c.execute("SELECT password FROM users WHERE username = '%s'" % session['username'])
+        a = c.fetchone()
+        print(request.form['check_password'])
+        print(a[0])
+        print(session['username'])
+        if (request.form['check_password'] != a[0]): #old password not correct
+            session["e2"] = True
+            session["message"]="Incorrect Password"
+            return redirect(url_for('settings'))
+        if (request.form['new_password'] != request.form['confirm_password']): #passwords don't match
+            session["e2"] = True
+            session["message"]="Passwords Don't Match"
+            return redirect(url_for('settings'))
+        update_user(session['username'], "password", request.form['new_password']) #updating the database
+        return render_template('settings.html', changed2=True)
 
 @app.route("/logout")
 def logout():

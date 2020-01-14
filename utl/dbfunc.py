@@ -1,6 +1,9 @@
 import urllib.request as request
 import json
 import marshal
+import sqlite3
+
+DB_FILE = "database.db"
 
 def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT)')
@@ -12,6 +15,19 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
+
+def update_user(username, field, newvalue):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("UPDATE users SET %s = '%s' WHERE username = '%s'" % (
+                field,
+                newvalue,
+                username
+            )
+        )
+    db.commit()
+    c.close()
+    return "Success"
 
 def blobify(data):
     return marshal.dumps(data)

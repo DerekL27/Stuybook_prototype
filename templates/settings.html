@@ -1,0 +1,70 @@
+{% extends "basenav.html" %}
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+
+<header>
+  <div class="container text-center p-2">
+    <h2>Settings</h2>
+  </div>
+</header>
+
+<div class="container-fluid text-center">
+  <form action="/change_settings" method="POST">
+    {% if e1 %}
+      <div class = "alert alert-danger m-3">
+        <i>{{ message }}</i>
+        </div>
+    {% endif %}
+
+    {% if changed1 %}
+      <div class="alert alert-success m-3"?
+        <i>Username Changed!</i>
+      </div>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm p-2">
+        <div class="form-group">
+          <label for="user">Change Your Username</label>
+          <input class="form-control" id="user" name="newusername"><br>
+          <button type="submit" class="btn btn-success" name="change_username">Submit</button>
+        </div>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+
+      {% if e2 %}
+        <div class = "alert alert-danger m-3">
+          <i>{{ message }}</i>
+        </div>
+      {% endif %}
+
+      {% if changed2 %}
+        <div class="alert alert-success m-3">
+          <i>Password Changed!</i>
+        </div>
+      {% endif %}
+
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm p-2">
+        <div class="form-group">
+          <h4 class="align-middle">Change Your Password</h4>
+          <label for="pass">Current Password</label>
+          <input class="form-control" id="pass" name="check_password">
+          <label for="pass2">New Password</label>
+          <input class="form-control" id="pass2" name="new_password">
+          <label for="confirm">Confirm New Password</label>
+          <input class="form-control" id="confirm" name="confirm_password"><br>
+          <button type="submit" class="btn btn-success" name="change_password">Submit</button>
+        </div>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}
