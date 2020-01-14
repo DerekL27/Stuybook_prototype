@@ -104,14 +104,15 @@ def profile():
     else:
         message = False
     c.execute("SELECT username, displayName, image, email FROM users WHERE userID = '{}'".format(session['userID']))
-    bruh = c.fetchall()
-    schedule = getSchedule(c,session["userID"])
+    bruh = c.fetchone()
+    schedule = getSchedule(c, session["userID"])
     print(schedule)
-    return render_template('profile.html', username = bruh[0][0],
-                                           displayName = bruh[0][1],
+    print(bruh)
+    return render_template('profile.html', username = bruh[0],
+                                           displayName = bruh[1],
                                            schedule = schedule,
-                                           image = bruh[0][2],
-                                           email = bruh[0][3], message=message)
+                                           image = bruh[2],
+                                           email = bruh[3], message=message)
 
 @app.route("/mygroups")
 def mygroups():
