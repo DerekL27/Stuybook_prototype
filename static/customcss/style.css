@@ -23,3 +23,7 @@ header {
 .carousel-control-prev {
     filter: invert(100%);
 }
+
+.carousel-position {
+  filter: invert(100%);
+}
