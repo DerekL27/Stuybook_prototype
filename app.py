@@ -113,6 +113,13 @@ def profile():
                                            image = bruh[0][2],
                                            email = bruh[0][3], message=message)
 
+@app.route("/mygroups")
+def mygroups():
+    """Returns Home Page"""
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('mygroups.html', user=session["username"])
+
 @app.route("/settings")
 def settings():
     if "userID" not in session:
