@@ -3,15 +3,15 @@
 
 {% block body %}
 <div class="my-4 container text-center">
-  <h1>Intelligence Trivia Results</h1>
+  <h1> Trivia Game Results</h1>
 </div>
 <div class="instruction">
   <p class="text-center lead"> The following will display the number of questions you answered correct.  </p>
   <h1 class="text-center"> {{correct}} / 5 </h1>
   <ol>
     {% for i in answers %}
-    <li> <b style="color: #ff0037"> QUESTION: </b> {{i|safe}}</li>
-    <b style="color: #52eb34"> ANSWER: </b> {{answers[i][0]|safe}}
+    <li> <b class= "text-secondary"> QUESTION: </b> {{i|safe}}</li>
+    <b class="text-info"> ANSWER: </b> {{answers[i][0]|safe}}
     {% endfor %}
     <br>
   </ol>
