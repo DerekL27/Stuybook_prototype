@@ -3,9 +3,11 @@
 
 {% block body %}
 
-<div class="container text-center p-2">
-    <h2>Signup</h2>
-</div>
+<header>
+    <div class="container text-center p-2">
+      <h2>Signup</h2>
+    </div>
+</header>
 
 {% if error %}
   <div class="alert alert-danger m-3" role="alert">
@@ -53,6 +55,13 @@
       </div>
     </div>
   </form>
+
+  <div class="container col-md p-5 w-50 m-25 align-middle text-center">
+    <div class="alert alert-warning" role="alert">
+      <strong>Already have an account?</strong> What are you doing here? <br><br>
+      <a href="/login" type="button" class="btn btn-warning">Login!</a>
+    </div>
+  </div>
 </div>
 
 
