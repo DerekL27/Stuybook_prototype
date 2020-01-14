@@ -61,3 +61,18 @@ Begin work on games, made minor edits to profile, fixed db issue
 
 tammyC -- 2020-01-13 22:53
 Tweaked trivia game code from last project & functional now! 
+
+graceM -- 2020-01-13 23:32
+Added login button to signup page, rearranged bootstrap
+
+graceM -- 2020-01-14 00:02
+User now able to change their settings (username, password) ADD DISPLAY 
+NAME LATER
+
+graceM -- 2020-01-14 00:35
+Added javascript in order to make a post on the home page
+Added useful links sidebar
+
+graceM -- 2020-01-13 00:55
+Attempted carousel for games until computer died
+
