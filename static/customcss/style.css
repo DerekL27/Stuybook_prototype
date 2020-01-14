@@ -10,3 +10,16 @@ header {
   background-color: #FFFFFF;
   color: #0000FF;
 }
+
+.game-display {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  height: 500px;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(100%);
+}
