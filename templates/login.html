@@ -3,9 +3,11 @@
 
 {% block body %}
 
-<div class="container text-center p-2">
+<header>
+  <div class="container text-center p-2">
     <h2>Login</h2>
-</div>
+  </div>
+</header>
 
 {% if error %}
   <div class="alert alert-danger m-3" role="alert">
@@ -31,7 +33,7 @@
     </div>
     <div class="col-md p-5 text-center">
       <div class="alert alert-info" role="alert">
-        Don't have an account? <br>
+        Don't have an account? <br><br>
         <a href="/signup" type="button" class="btn btn-info">Sign Up!</a>
       </div>
     </div>
