@@ -2,7 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import urllib.request as urlrequest
 import json
 import sqlite3, os
+import random
 from utl.dbfunc import setup, createUser, getSchedule
+import utl.dbfunc as dbfunc
+
 
 app = Flask(__name__)
 
@@ -131,13 +134,6 @@ def games():
         return redirect(url_for('login'))
     return render_template('games.html', user=session["username"])
 
-@app.route("/trivia")
-def trivia():
-    """Returns Trivia Page"""
-    if "userID" not in session:
-        return redirect(url_for('login'))
-    return render_template('trivia.html', user=session["username"])
-
 @app.route("/superhero")
 def superhero():
     """Returns Superhero Page"""
@@ -153,7 +149,6 @@ def anagrams():
     return render_template('anagrams.html', user=session["username"])
 
 
-"""
 #########################################################
 #                  TRIVIA MINIGAME                      #
 #########################################################
@@ -170,9 +165,9 @@ def shuffle(q):
 
 @app.route("/trivia")
 def trivia():
-    dbfunctions.createTables(c)
-    dbfunctions.addQuestions(c)
-    original_questions = dbfunctions.questBank(c)
+    dbfunc.setup(c)
+    dbfunc.addQuestions(c)
+    original_questions = dbfunc.questBank(c)
     questions_shuffled = shuffle(original_questions)
     for i in original_questions.keys():
         random.shuffle(original_questions[i])
@@ -181,9 +176,9 @@ def trivia():
 @app.route('/triviaresults', methods=['POST'])
 def triviaresults():
     correct = 0;
-    userID = session['userID']
-    original_questions = dbfunctions.questBank(c)
-    answers = dbfunctions.answerBank(c)
+    userID = session["userID"]
+    original_questions = dbfunc.questBank(c)
+    answers = dbfunc.answerBank(c)
     if request.method == 'POST':
         for i in original_questions.keys():
             answered = request.form[i]
@@ -192,12 +187,7 @@ def triviaresults():
         original_question = {}
     else:
         return render_template('triviaresults.html', correct = correct, answers = answers)
-    dbfunctions.updateStats(c, userID, intelligence = (correct * 3), xp = (correct * 5), gold = (correct * 2)) # each question correct is +3 to intelligence
-    stats = dbfunctions.getStats(c, str(userID))
-    currXP = stats['xp']
-    leveledUp = dbfunctions.levelUp(currXP-(5 * correct), currXP)
-    return render_template('triviaresults.html', correct = correct, answers = answers, intelligence = stats['intelligence'], xp = currXP, leveledUp = leveledUp, gold = (correct * 2))
-"""
+    return render_template('triviaresults.html', correct = correct, answers = answers)
 
 if __name__ == "__main__":
     app.debug = True
