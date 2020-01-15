@@ -110,3 +110,11 @@ def answerBank(c):
     for i in range(5):
         bankDic[bank[i][0]] = [bank[i][1]]
     return bankDic
+
+def checkAnagrams(s):
+    q = request.urlopen("http://www.anagramica.com/all/:teardrop").read()
+    count = json.loads(q)['all']
+    for i in count:
+        if (count[i] == s):
+            return True
+    return False
