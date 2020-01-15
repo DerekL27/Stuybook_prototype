@@ -2,5 +2,49 @@
 {% block title %} Anagrams {% endblock %}
 
 {% block body %}
-This is the Anagrams page
+<div class="my-4 container text-center" >
+  <h1> Anagrams Game </h1>
+  <p class="lead"> Challenge your #bigBrain with some SNAPPY-WORD-SCRAMMBLING! Let's see what you know. </p>
+</div>
+
+<div class="container border border-info" style="background-color: #97E2F4;">
+  <div class="card-group">
+    <div class="card align-items-center">
+      <h3>  E </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  R </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  R </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  T </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  P </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  O </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  A </h3>
+    </div>
+    <div class="card align-items-center">
+      <h3>  D </h3>
+    </div>
+  </div>
+  <div id="myDIV" class="header text-center">
+    <h4>List of Words You Found</h4>
+    <input type="text" id="myInput" placeholder="">
+    <div class ="btn btn-secondary" onclick="newElement()" class="addBtn">Add</div>
+  </div>
+  <ul id="myUL" class="text-center">
+  </ul>
+
+</div>
+
+<script type="text/javascript" src="/static/js/funky-town.js"></script>
+
+
 {% endblock %}
