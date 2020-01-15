@@ -37,7 +37,8 @@ def unblob(stuff):
 
 def getAllPosts(c):
     c.execute("SELECT * FROM posts")
-    print(c.fetchall())
+    a = c.fetchall()
+    return a
 
 def updateTriviaScore(userID,score): #where score is how many they got right on the most recent trivia thing
     c.execute("SELECT triviaScore FROM leaderboards WHERE userID = '{}'".format(userID))
@@ -49,8 +50,11 @@ def countRows(c,table):
     return c.fetchall()[0][0]
 
 def addPost(userID,text):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
     nextIndex = int(countRows(c,"posts"))
-    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
+    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
+    db.commit()
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
