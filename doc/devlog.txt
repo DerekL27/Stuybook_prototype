@@ -81,3 +81,6 @@ Started working on posting stuff
 
 derekL -- 2020-01-14 20:14
 Did schedule stuff and did a bit more posting stuff
+
+chenT -- 2020-01-14 23:03 
+Fixed up games page, trivia & continued to work on anagrams 
