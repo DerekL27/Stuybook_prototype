@@ -207,11 +207,13 @@ def anagrams():
 
 @app.route("/posting")
 def posting():
-    if(len(request.args) == 0): return None
+    if(len(request.args) == 0): return redirect('/home')
     if(len(request.args["body"].rstrip()) == 0):
         flash("Body has no text!")
+        return redirect('/home')
     else:
         addPost(session[userID],request.args["body"])
+        return redirect('/home')
 
 
 #########################################################
