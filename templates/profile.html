@@ -19,16 +19,16 @@
   <div class="card">
     <img class = "card-img shadow-sm p-4 mb-4 bg-white border border-primary rounded-top" src="{{image}}">
     <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle"
+  <button class="btn btn-secondary dropdown-toggle ml-5"
           type="button" id="dropdownMenu1" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
     Want to change your profile picture?
-  </button>
+  </button> <br><br>
   <div class="dropdown-menu" aria-labelledby="changePicDropdown">
-    <form action="/changePic" method="POST">
+    <form class="pl-3 pr-3" action="/changePic" method="POST">
   <label class="sr-only" for="inlineFormInputName2">Name</label>
-  <input type="text" class="form-control mb-2 mr-sm-2" id="imageurl" name="newImage" placeholder="Paste your image link here!">
-  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    <input type="text" class="form-control mb-2" id="imageurl" name="newImage" placeholder="Paste your image link here!">
+  <button type="submit" class="btn btn-primary mb-1">Submit</button>
 </form>
   </div>
 </div>
