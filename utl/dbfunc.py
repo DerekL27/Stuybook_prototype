@@ -82,6 +82,7 @@ def addPost(userID,text):
     nextIndex = int(countRows(c,"posts"))
     c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
     db.commit()
+    c.close()
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
