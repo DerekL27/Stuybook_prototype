@@ -6,7 +6,7 @@ import sqlite3
 DB_FILE = "database.db"
 
 def setup(c):
-    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT, bio TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS schedules (scheduleID INTEGER PRIMARY KEY, schedule BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS classNames (courseCode TEXT PRIMARY KEY, className TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS groups (groupID INTEGER PRIMARY KEY, groupName TEXT, posts BLOB, members BLOB)')
@@ -59,7 +59,7 @@ def addPost(userID,text):
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
     nextIndex = int(countRows(c,"users"))
-    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname, image))
+    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname, image, ""))
     c.execute("INSERT INTO schedules VALUES(?, ?)",(nextIndex,blobify([None,None,None,None,None,None,None,None,None,None])))
 
 def getSchedule(c,userID):

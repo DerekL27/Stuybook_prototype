@@ -93,7 +93,9 @@ def home():
         return redirect(url_for('login'))
     posts = getAllPosts(c)
     print(posts)
-    return render_template('home.html', user=session["username"], posts=posts)
+    c.execute("SELECT displayName FROM users WHERE userID = '%s'" % session["userID"])
+    a = c.fetchone()
+    return render_template('home.html', user=a[0], posts=posts)
 
 @app.route("/myprofile")
 def profile():
@@ -105,14 +107,15 @@ def profile():
         session.pop("registered")
     else:
         message = False
-    c.execute("SELECT username, displayName, image, email FROM users WHERE userID = '{}'".format(session['userID']))
+    c.execute("SELECT username, displayName, image, email, bio FROM users WHERE userID = '{}'".format(session['userID']))
     bruh = c.fetchone()
     schedule = getSchedule(c, session["userID"])
     return render_template('profile.html', username = bruh[0],
                                            displayName = bruh[1],
                                            schedule = schedule,
                                            image = bruh[2],
-                                           email = bruh[3], message=message)
+                                           email = bruh[3],
+                                           bio = bruh[4], message=message)
 
 @app.route("/update_schedule", methods=["POST"])
 def schedule():
@@ -128,6 +131,13 @@ def schedule():
             newschedule += [currentperiod]
     updateSchedule(c,session["userID"],newschedule)
     return redirect('/myprofile')
+
+@app.route("/edit_bio", methods=["POST"])
+def bio():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("UPDATE users SET bio = '%s' WHERE username = '%s'" % (request.form["newbio"], session["username"]))
+    return redirect(url_for('profile'))
 
 @app.route("/mygroups")
 def mygroups():
@@ -154,6 +164,9 @@ def changing():
     session["e2"] = False
     if "userID" not in session:
         return redirect(url_for('login'))
+    if (request.form['displaychange'] != ''):
+        update_user(session['username'], "displayName", request.form['displaychange'])
+        return render_template('settings.html', changed3=True)
     if (request.form['check_password'] == ''):
         if (request.form['new_password'] != '' or request.form['confirm_password'] != ''): #if other password fields filled out, something's wrong
             session["e2"] = True

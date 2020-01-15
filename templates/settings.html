@@ -64,6 +64,22 @@
       <div class="col-sm"></div>
     </div>
 
+    {% if changed3 %}
+      <div class="alert alert-success m-3">
+        <i>Display Name Changed!</i>
+      </div>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm p-2">
+        <h4 class="align-middle">Change Your Display Name</h4>
+        <label for="newdisplay">New Display Name</label>
+        <input class="form-control" id="newdisplay" name="displaychange"><br>
+        <button type="submit" class="btn btn-success" name="change_display">Submit</button>
+      </div>
+      <div class="col-sm"></div>
+
   </form>
 </div>
 
