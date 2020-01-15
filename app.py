@@ -92,7 +92,6 @@ def home():
     if "userID" not in session:
         return redirect(url_for('login'))
     posts = getAllPosts(c)
-<<<<<<< HEAD
     authors = []
     #print(posts)
     for i in range(len(posts)):
@@ -101,12 +100,6 @@ def home():
     posts.reverse()
     authors.reverse()
     return render_template('home.html', user=session["username"], posts=posts, authors=authors)
-=======
-    print(posts)
-    c.execute("SELECT displayName FROM users WHERE userID = '%s'" % session["userID"])
-    a = c.fetchone()
-    return render_template('home.html', user=a[0], posts=posts)
->>>>>>> f2b76f27419a066846fce2f941c6a09e784f43fd
 
 @app.route("/myprofile")
 def profile():
@@ -143,20 +136,18 @@ def schedule():
     updateSchedule(c,session["userID"],newschedule)
     return redirect('/myprofile')
 
-<<<<<<< HEAD
 @app.route("/changePic", methods=["POST"])
 def changePic():
     picUrl = request.form['newImage']
     c.execute("UPDATE users SET image = ? WHERE userID = ?",(picUrl,session['userID']))
     return redirect("/myprofile")
-=======
+
 @app.route("/edit_bio", methods=["POST"])
 def bio():
     if "userID" not in session:
         return redirect(url_for('login'))
     c.execute("UPDATE users SET bio = '%s' WHERE username = '%s'" % (request.form["newbio"], session["username"]))
     return redirect(url_for('profile'))
->>>>>>> f2b76f27419a066846fce2f941c6a09e784f43fd
 
 @app.route("/mygroups")
 def mygroups():
