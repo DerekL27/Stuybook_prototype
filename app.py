@@ -254,6 +254,13 @@ def triviaresults():
         return render_template('triviaresults.html', correct = correct, answers = answers)
     return render_template('triviaresults.html', correct = correct, answers = answers)
 
+@app.route('/leaderboard')
+def leaderboard():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    return render_template('leaderboard.html')
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
