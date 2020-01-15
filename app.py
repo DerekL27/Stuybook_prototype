@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName
 import utl.dbfunc as dbfunc
 
 
@@ -92,8 +92,15 @@ def home():
     if "userID" not in session:
         return redirect(url_for('login'))
     posts = getAllPosts(c)
-    print(posts)
-    return render_template('home.html', user=session["username"], posts=posts)
+    authors = []
+    #print(posts)
+    for i in range(len(posts)):
+        c.execute("SELECT displayName FROM users WHERE userID = ?",(posts[i][1],))
+        authors.append(c.fetchall()[0][0])
+    posts.reverse()
+    authors.reverse()
+    print(authors)
+    return render_template('home.html', user=session["username"], posts=posts, authors=authors)
 
 @app.route("/myprofile")
 def profile():
@@ -105,14 +112,15 @@ def profile():
         session.pop("registered")
     else:
         message = False
-    c.execute("SELECT username, displayName, image, email FROM users WHERE userID = '{}'".format(session['userID']))
+    c.execute("SELECT username, displayName, image, email, bio FROM users WHERE userID = '{}'".format(session['userID']))
     bruh = c.fetchone()
     schedule = getSchedule(c, session["userID"])
     return render_template('profile.html', username = bruh[0],
                                            displayName = bruh[1],
                                            schedule = schedule,
                                            image = bruh[2],
-                                           email = bruh[3], message=message)
+                                           email = bruh[3],
+                                           bio = bruh[4], message=message)
 
 @app.route("/update_schedule", methods=["POST"])
 def schedule():
@@ -129,12 +137,26 @@ def schedule():
     updateSchedule(c,session["userID"],newschedule)
     return redirect('/myprofile')
 
+@app.route("/changePic", methods=["POST"])
+def changePic():
+    picUrl = request.form['newImage']
+    c.execute("UPDATE users SET image = ? WHERE userID = ?",(picUrl,session['userID']))
+    return redirect("/myprofile")
+
+@app.route("/edit_bio", methods=["POST"])
+def bio():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("UPDATE users SET bio = '%s' WHERE username = '%s'" % (request.form["newbio"], session["username"]))
+    return redirect(url_for('profile'))
+
 @app.route("/mygroups")
 def mygroups():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('mygroups.html', user=session["username"])
+    groups = placeholderName(c,session['userID']) #returns all the info for the groups that user is in
+    return render_template('mygroups.html', user=session["username"], groups = groups)
 
 @app.route("/settings")
 def settings():
@@ -154,6 +176,9 @@ def changing():
     session["e2"] = False
     if "userID" not in session:
         return redirect(url_for('login'))
+    if (request.form['displaychange'] != ''):
+        update_user(session['username'], "displayName", request.form['displaychange'])
+        return render_template('settings.html', changed3=True)
     if (request.form['check_password'] == ''):
         if (request.form['new_password'] != '' or request.form['confirm_password'] != ''): #if other password fields filled out, something's wrong
             session["e2"] = True
@@ -219,8 +244,13 @@ def posting():
         flash("Body has no text!")
         return redirect('/home')
     else:
-        print(request.form['body'])
-        addPost(session['userID'],request.form['body'])
+        words = request.form['body']
+        words = words.replace(" ","AGDEIlGEdzgzXEN")
+        thing = urlrequest.urlopen("https://www.purgomalum.com/service/json?text={}".format(words))
+        thing2 = thing.read()
+        thing3 = json.loads(thing2)
+        thing4 = thing3['result'].replace("AGDEIlGEdzgzXEN"," ")
+        addPost(session['userID'],thing4)
         return redirect('/home')
 
 
@@ -270,7 +300,8 @@ def triviaresults():
 def leaderboard():
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('leaderboard.html')
+    stuff = getAllLeaderboard(c)
+    return render_template('leaderboard.html', stuff = stuff)
 
 
 if __name__ == "__main__":

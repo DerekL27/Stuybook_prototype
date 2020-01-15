@@ -18,15 +18,30 @@
 <div class="card-group">
   <div class=" align-items-center">
     <img class = "shadow-sm p-4 mb-4 bg-white border border-primary rounded-top" src="{{image}}" width="250" height="350">
+    <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle"
+          type="button" id="dropdownMenu1" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+    Want to change your profile picture?
+  </button>
+  <div class="dropdown-menu" aria-labelledby="changePicDropdown">
+    <form action="/changePic" method="POST">
+  <label class="sr-only" for="inlineFormInputName2">Name</label>
+  <input type="text" class="form-control mb-2 mr-sm-2" id="imageurl" name="newImage" placeholder="Paste your image link here!">
+  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+  </div>
+</div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title "> Email:
         <a href = "mailto: {{email}}">{{email}}</a>
       </h5>
-      <p class="card-text"> <h5> Bio:</h5>
-        {{bio}}
-      </p>
+        <h5> Bio: <button class="btn btn-link pb-2" id="editbio">Edit</button> </h5>
+        <p id="currentbio">{{bio}}</p>
+        <div id="editbox">
+        </div>
       <a href="/settings" class="btn btn-info">Change Settings</a>
     </div>
   </div>

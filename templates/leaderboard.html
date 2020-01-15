@@ -4,5 +4,28 @@
 {% block body %}
 
 This is the leaderboard page
+<div style="text-align: center;">
+<h1 class="display-3">Leaderboard</h1>
+<br>
+<br>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">Trivia Score</th>
+      <th scope="col">Anagrams Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in stuff %}
+    <tr>
+      <td>{{i[0]}}</td>
+      <td>{{i[2]}}</td>
+      <td>{{i[3]}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
 
 {% endblock %}

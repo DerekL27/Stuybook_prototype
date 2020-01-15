@@ -6,7 +6,7 @@ import sqlite3
 DB_FILE = "database.db"
 
 def setup(c):
-    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT, bio TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS schedules (scheduleID INTEGER PRIMARY KEY, schedule BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS classNames (courseCode TEXT PRIMARY KEY, className TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS groups (groupID INTEGER PRIMARY KEY, groupName TEXT, posts BLOB, members BLOB)')
@@ -29,6 +29,19 @@ def update_user(username, field, newvalue):
     c.close()
     return "Success"
 
+def placeholderName(c,userID):
+    nextIndex = int(countRows(c,"groups"))
+    groupsIn = [] #all the groups user is in
+    groupsInfo = [] #basically SELECT * FROM groups WHERE (user is a member of)
+    for i in range(nextIndex):
+        c.execute("SELECT members FROM groups WHERE groupID = {}".format(nextIndex))
+        if(userID in unblob(c.fetchall()[0][0])):
+            groupsIn.append(i)
+    for i in groupsIn:
+        c.execute("SELECT * FROM groups WHERE groupID = {}".format(i))
+        groupsInfo.append(c.fetchall()[0])
+    return groupsInfo
+
 def blobify(data):
     return marshal.dumps(data)
 
@@ -37,6 +50,11 @@ def unblob(stuff):
 
 def getAllPosts(c):
     c.execute("SELECT * FROM posts")
+    a = c.fetchall()
+    return a
+
+def getAllLeaderboard(c):
+    c.execute("SELECT * FROM leaderboards")
     a = c.fetchall()
     return a
 
@@ -59,8 +77,21 @@ def addPost(userID,text):
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
     nextIndex = int(countRows(c,"users"))
-    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname, image))
+    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname, image, ""))
     c.execute("INSERT INTO schedules VALUES(?, ?)",(nextIndex,blobify([None,None,None,None,None,None,None,None,None,None])))
+    c.execute("INSERT INTO leaderboards VALUES (?, ?, ?, ?)",(nextIndex,0,0,0))
+
+def createGroup(c,groupName,userID):
+    nextIndex = int(countRows(c,"groups"))
+    c.execute("INSERT INTO groups VALUES (?, ?, ?, ?)",(nextIndex,groupName,blobify([]),blobify([userID])))
+
+def addtoGroup(c,groupID,userID):
+    c.execute("SELECT members FROM groups WHERE groupID = {}".format(groupID))
+    list = c.fetchall()[0][0]
+    list = unblob(list)
+    list.append(userID)
+    list = blobify(list)
+    c.execute("UPDATE groups SET members = ? WHERE groupID = ?",(list,groupID))
 
 def getSchedule(c,userID):
     c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))
