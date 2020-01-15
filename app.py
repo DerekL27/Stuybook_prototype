@@ -114,6 +114,23 @@ def profile():
                                            image = bruh[2],
                                            email = bruh[3], message=message)
 
+@app.route("/update_schedule", methods=["POST"])
+def schedule():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    newschedule = []
+    for i in range(0,10):
+        currentperiod = request.form["period"+str(i+1)];
+        oldschedule = getSchedule(c, session["userID"])
+        #print(oldschedule)
+        #print(currentperiod)
+        if currentperiod == "":
+            newschedule += [oldschedule[i]]
+        else:
+            newschedule += [currentperiod]
+    #print(newschedule)
+    return "Hi"
+
 @app.route("/mygroups")
 def mygroups():
     """Returns Home Page"""
