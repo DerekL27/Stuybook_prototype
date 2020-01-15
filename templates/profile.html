@@ -47,7 +47,21 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Reminders</h4>
+      <div id="reminder-heading">
+        <h4 class="card-title">Reminders</h4>
+        <div class="input-group mb-3">
+          <input type="text" id="myInput" placeholder="Calculus homework...">
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" onclick="newElement()">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <ul id="reminder-list">
+        {% for r in reminders %}
+          <li id="reminder-item">{{ r }}</li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 </div>

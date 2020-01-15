@@ -1,3 +1,4 @@
+
 var bro = document.getElementById('editbio')
 var another = function() {
   var div = document.createElement("div");
@@ -35,9 +36,6 @@ var func = function() {
   `;
   document.getElementById("makepost").appendChild(div);
 
-  /*var thing = document.createElement("div");
-  thing.innerText = "Hello World";
-  document.getElementById("feed").appendChild(thing);*/
 }
 a.addEventListener('click', func);
 
