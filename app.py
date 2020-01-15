@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName
 import utl.dbfunc as dbfunc
 
 
@@ -99,6 +99,7 @@ def home():
         authors.append(c.fetchall()[0][0])
     posts.reverse()
     authors.reverse()
+    print(authors)
     return render_template('home.html', user=session["username"], posts=posts, authors=authors)
 
 @app.route("/myprofile")
@@ -154,7 +155,7 @@ def mygroups():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    groups = placeholderName(session['userID']) #returns all the info for the groups that user is in
+    groups = placeholderName(c,session['userID']) #returns all the info for the groups that user is in
     return render_template('mygroups.html', user=session["username"], groups = groups)
 
 @app.route("/settings")

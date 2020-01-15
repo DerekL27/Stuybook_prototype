@@ -29,7 +29,7 @@ def update_user(username, field, newvalue):
     c.close()
     return "Success"
 
-def placeholderName(userID):
+def placeholderName(c,userID):
     nextIndex = int(countRows(c,"groups"))
     groupsIn = [] #all the groups user is in
     groupsInfo = [] #basically SELECT * FROM groups WHERE (user is a member of)

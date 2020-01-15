@@ -3,9 +3,9 @@
 
 {% block body %}
 This is all the groups you are a part of.
-{{% for i in groups %}}
+{% for i in groups %}
 <<u> {{i[0][1]}}</u>
-{{% endfor %}}
+{% endfor %}
 <br><br><br><br>
 <b>Create new group:</b>
 <br>
