@@ -38,9 +38,10 @@
       <h5 class="card-title "> Email:
         <a href = "mailto: {{email}}">{{email}}</a>
       </h5>
-      <p class="card-text"> <h5> Bio:</h5>
-        {{bio}}
-      </p>
+        <h5> Bio: <button class="btn btn-link pb-2" id="editbio">Edit</button> </h5>
+        <p id="currentbio">{{bio}}</p>
+        <div id="editbox">
+        </div>
       <a href="/settings" class="btn btn-info">Change Settings</a>
     </div>
   </div>
