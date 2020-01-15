@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore
 import utl.dbfunc as dbfunc
 
 
@@ -245,11 +245,11 @@ def posting():
         return redirect('/home')
     else:
         words = request.form['body']
-        words = words.replace(" ","AGDEIlGEdzgzXEN")
+        words = words.replace(" ","`AGDEIlGEdzgzXEN`")
         thing = urlrequest.urlopen("https://www.purgomalum.com/service/json?text={}".format(words))
         thing2 = thing.read()
         thing3 = json.loads(thing2)
-        thing4 = thing3['result'].replace("AGDEIlGEdzgzXEN"," ")
+        thing4 = thing3['result'].replace("`AGDEIlGEdzgzXEN`"," ")
         addPost(session['userID'],thing4)
         return redirect('/home')
 
@@ -291,9 +291,9 @@ def triviaresults():
                 correct += 1
         original_question = {}
     else:
-        updateTriviaScore(userID,correct)
+        updateTriviaScore(c,userID,correct)
         return render_template('triviaresults.html', correct = correct, answers = answers)
-    updateTriviaScore(userID,correct)
+    updateTriviaScore(c,userID,correct)
     return render_template('triviaresults.html', correct = correct, answers = answers)
 
 @app.route('/leaderboard')
@@ -301,7 +301,11 @@ def leaderboard():
     if "userID" not in session:
         return redirect(url_for('login'))
     stuff = getAllLeaderboard(c)
-    return render_template('leaderboard.html', stuff = stuff)
+    c.execute("SELECT displayName FROM users")
+    names = c.fetchall()
+    print(stuff)
+    print(names)
+    return render_template('leaderboard.html', stuff = stuff, names = names)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS reminders (userID INTEGER, reminder TEXT )')
+    c.execute('CREATE TABLE IF NOT EXISTS reminders (reminderID INTEGER PRIMARY KEY, userID INTEGER, reminder TEXT )')
 
 def update_user(username, field, newvalue):
     db = sqlite3.connect(DB_FILE)
@@ -31,7 +31,8 @@ def update_user(username, field, newvalue):
     return "Success"
 
 def addReminder(c,userID,text):
-    c.execute("INSERT INTO reminders VALUES (?, ?)",(userID,text))
+    nextIndex = int(countRows(c,"reminders"))
+    c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(nextIndex,userID,text))
 
 def getReminders(c,userID):
     c.execute("SELECT reminder FROM reminders WHERE userID = ?",(userID,))
@@ -66,7 +67,7 @@ def getAllLeaderboard(c):
     a = c.fetchall()
     return a
 
-def updateTriviaScore(userID,score): #where score is how many they got right on the most recent trivia thing
+def updateTriviaScore(c,userID,score): #where score is how many they got right on the most recent trivia thing
     c.execute("SELECT triviaScore FROM leaderboards WHERE userID = '{}'".format(userID))
     asdf = c.fetchall()[0][0]
     c.execute("UPDATE leaderboards SET triviaScore = {} WHERE userID = {}".format(asdf+score,userID))
