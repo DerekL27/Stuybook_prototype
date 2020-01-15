@@ -81,3 +81,7 @@ Started working on posting stuff
 
 derekL -- 2020-01-14 20:14
 Did schedule stuff and did a bit more posting stuff
+Added authors to posts
+Implemented purgomalum
+Added changing profile picture option
+Started work on groups (create group,add members, and checking membership)

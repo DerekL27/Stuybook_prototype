@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard
 import utl.dbfunc as dbfunc
 
 
@@ -92,8 +92,14 @@ def home():
     if "userID" not in session:
         return redirect(url_for('login'))
     posts = getAllPosts(c)
-    print(posts)
-    return render_template('home.html', user=session["username"], posts=posts)
+    authors = []
+    #print(posts)
+    for i in range(len(posts)):
+        c.execute("SELECT displayName FROM users WHERE userID = ?",(posts[i][1],))
+        authors.append(c.fetchall()[0][0])
+    posts.reverse()
+    authors.reverse()
+    return render_template('home.html', user=session["username"], posts=posts, authors=authors)
 
 @app.route("/myprofile")
 def profile():
@@ -129,12 +135,19 @@ def schedule():
     updateSchedule(c,session["userID"],newschedule)
     return redirect('/myprofile')
 
+@app.route("/changePic", methods=["POST"])
+def changePic():
+    picUrl = request.form['newImage']
+    c.execute("UPDATE users SET image = ? WHERE userID = ?",(picUrl,session['userID']))
+    return redirect("/myprofile")
+
 @app.route("/mygroups")
 def mygroups():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('mygroups.html', user=session["username"])
+    groups = placeholderName(session['userID']) #returns all the info for the groups that user is in
+    return render_template('mygroups.html', user=session["username"], groups = groups)
 
 @app.route("/settings")
 def settings():
@@ -219,8 +232,13 @@ def posting():
         flash("Body has no text!")
         return redirect('/home')
     else:
-        print(request.form['body'])
-        addPost(session['userID'],request.form['body'])
+        words = request.form['body']
+        words = words.replace(" ","AGDEIlGEdzgzXEN")
+        thing = urlrequest.urlopen("https://www.purgomalum.com/service/json?text={}".format(words))
+        thing2 = thing.read()
+        thing3 = json.loads(thing2)
+        thing4 = thing3['result'].replace("AGDEIlGEdzgzXEN"," ")
+        addPost(session['userID'],thing4)
         return redirect('/home')
 
 
@@ -270,7 +288,8 @@ def triviaresults():
 def leaderboard():
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('leaderboard.html')
+    stuff = getAllLeaderboard(c)
+    return render_template('leaderboard.html', stuff = stuff)
 
 
 if __name__ == "__main__":
