@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule
 import utl.dbfunc as dbfunc
 
 
@@ -122,14 +122,12 @@ def schedule():
     for i in range(0,10):
         currentperiod = request.form["period"+str(i+1)];
         oldschedule = getSchedule(c, session["userID"])
-        #print(oldschedule)
-        #print(currentperiod)
         if currentperiod == "":
             newschedule += [oldschedule[i]]
         else:
             newschedule += [currentperiod]
-    #print(newschedule)
-    return "Hi"
+    updateSchedule(c,session["userID"],newschedule)
+    return redirect('/myprofile')
 
 @app.route("/mygroups")
 def mygroups():
@@ -207,13 +205,6 @@ def games():
     if "userID" not in session:
         return redirect(url_for('login'))
     return render_template('games.html', user=session["username"])
-
-@app.route("/superhero")
-def superhero():
-    """Returns Superhero Page"""
-    if "userID" not in session:
-        return redirect(url_for('login'))
-    return render_template('superhero.html', user=session["username"])
 
 @app.route("/anagrams")
 def anagrams():

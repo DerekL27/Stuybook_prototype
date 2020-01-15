@@ -66,6 +66,10 @@ def getSchedule(c,userID):
     c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))
     return unblob(c.fetchall()[0][0])
 
+def updateSchedule(c,userID,newschedule):
+    print("hello!!")
+    c.execute("UPDATE schedules SET schedule = ? WHERE scheduleID = ?",(blobify(newschedule),userID))
+
 def quest(bank):
     """Makes dictionary from Open Trivia API"""
     q = request.urlopen("https://opentdb.com/api.php?amount=10&category=18&type=multiple").read()
