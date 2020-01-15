@@ -191,13 +191,6 @@ def games():
         return redirect(url_for('login'))
     return render_template('games.html', user=session["username"])
 
-@app.route("/superhero")
-def superhero():
-    """Returns Superhero Page"""
-    if "userID" not in session:
-        return redirect(url_for('login'))
-    return render_template('superhero.html', user=session["username"])
-
 @app.route("/anagrams")
 def anagrams():
     """Returns Anagrams Page"""
