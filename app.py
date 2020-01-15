@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule
 import utl.dbfunc as dbfunc
 
 
@@ -91,8 +91,9 @@ def home():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    getAllPosts(c)
-    return render_template('home.html', user=session["username"])
+    posts = getAllPosts(c)
+    print(posts)
+    return render_template('home.html', user=session["username"], posts=posts)
 
 @app.route("/myprofile")
 def profile():
@@ -121,14 +122,12 @@ def schedule():
     for i in range(0,10):
         currentperiod = request.form["period"+str(i+1)];
         oldschedule = getSchedule(c, session["userID"])
-        #print(oldschedule)
-        #print(currentperiod)
         if currentperiod == "":
             newschedule += [oldschedule[i]]
         else:
             newschedule += [currentperiod]
-    #print(newschedule)
-    return "Hi"
+    updateSchedule(c,session["userID"],newschedule)
+    return redirect('/myprofile')
 
 @app.route("/mygroups")
 def mygroups():
@@ -214,15 +213,14 @@ def anagrams():
         return redirect(url_for('login'))
     return render_template('anagrams.html', user=session["username"])
 
-@app.route("/posting")
+@app.route("/posting", methods=["POST"])
 def posting():
-    if(len(request.args) == 0): return redirect('/home')
-    if(len(request.args["body"].rstrip()) == 0):
+    if(len(request.form['body'].rstrip()) == 0):
         flash("Body has no text!")
         return redirect('/home')
     else:
-        print(request.args['body'])
-        addPost(session[userID],request.args["body"])
+        print(request.form['body'])
+        addPost(session['userID'],request.form['body'])
         return redirect('/home')
 
 

@@ -7,18 +7,14 @@ var func = function() {
     <form action='/posting' method='POST'>
     <div class="form-group" id="salad">
         <div class="col-md-6">
-            <textarea class="form-control" rows="3" placeholder="What's up?" name="hello" required></textarea>
+            <textarea class="form-control" rows="3" placeholder="What's up?" name="body" required></textarea>
         </div>
     </div>
+    <button type="submit" class="btn btn-success ml-3">Post!</button>
     </form>
   `;
-  document.getElementById("feed").appendChild(div);
+  document.getElementById("makepost").appendChild(div);
 
-  var button = document.createElement("a");
-  button.type = "submit";
-  button.className = "btn btn-success ml-3";
-  button.innerHTML = "Post!";
-  document.getElementById("salad").appendChild(button);
   /*var thing = document.createElement("div");
   thing.innerText = "Hello World";
   document.getElementById("feed").appendChild(thing);*/
