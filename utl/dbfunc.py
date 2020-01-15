@@ -15,6 +15,7 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS reminders (userID INTEGER, reminder TEXT )')
 
 def update_user(username, field, newvalue):
     db = sqlite3.connect(DB_FILE)
@@ -28,6 +29,13 @@ def update_user(username, field, newvalue):
     db.commit()
     c.close()
     return "Success"
+
+def addReminder(c,userID,text):
+    c.execute("INSERT INTO reminders VALUES (?, ?)",(userID,text))
+
+def getReminders(c,userID):
+    c.execute("SELECT reminder FROM reminders WHERE userID = ?",(userID,))
+    return(c.fetchall())
 
 def placeholderName(c,userID):
     nextIndex = int(countRows(c,"groups"))
