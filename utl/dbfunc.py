@@ -50,7 +50,7 @@ def countRows(c,table):
 
 def addPost(userID,text):
     nextIndex = int(countRows(c,"posts"))
-    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
+    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
@@ -61,6 +61,10 @@ def createUser(c, username, password, displayname, email, image):
 def getSchedule(c,userID):
     c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))
     return unblob(c.fetchall()[0][0])
+
+def updateSchedule(c,userID,newschedule):
+    print("hello!!")
+    c.execute("UPDATE schedules SET schedule = ? WHERE scheduleID = ?",(blobify(newschedule),userID))
 
 def quest(bank):
     """Makes dictionary from Open Trivia API"""
