@@ -35,6 +35,15 @@ def blobify(data):
 def unblob(stuff):
     return marshal.loads(stuff)
 
+def getAllPosts(c):
+    c.execute("SELECT * FROM posts")
+    print(c.fetchall())
+
+def updateTriviaScore(userID,score): #where score is how many they got right on the most recent trivia thing
+    c.execute("SELECT triviaScore FROM leaderboards WHERE userID = '{}'".format(userID))
+    asdf = c.fetchall()[0][0]
+    c.execute("UPDATE leaderboards SET triviaScore = {} WHERE userID = {}".format(asdf+score,userID))
+
 def countRows(c,table):
     c.execute("SELECT COUNT(*) FROM {}".format(table))
     return c.fetchall()[0][0]

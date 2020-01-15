@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts
 import utl.dbfunc as dbfunc
 
 
@@ -91,6 +91,7 @@ def home():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
+    getAllPosts(c)
     return render_template('home.html', user=session["username"])
 
 @app.route("/myprofile")
@@ -106,8 +107,6 @@ def profile():
     c.execute("SELECT username, displayName, image, email FROM users WHERE userID = '{}'".format(session['userID']))
     bruh = c.fetchone()
     schedule = getSchedule(c, session["userID"])
-    print(schedule)
-    print(bruh)
     return render_template('profile.html', username = bruh[0],
                                            displayName = bruh[1],
                                            schedule = schedule,
@@ -212,6 +211,7 @@ def posting():
         flash("Body has no text!")
         return redirect('/home')
     else:
+        print(request.args['body'])
         addPost(session[userID],request.args["body"])
         return redirect('/home')
 
@@ -253,7 +253,9 @@ def triviaresults():
                 correct += 1
         original_question = {}
     else:
+        updateTriviaScore(userID,correct)
         return render_template('triviaresults.html', correct = correct, answers = answers)
+    updateTriviaScore(userID,correct)
     return render_template('triviaresults.html', correct = correct, answers = answers)
 
 @app.route('/leaderboard')

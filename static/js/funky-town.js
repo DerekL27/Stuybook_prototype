@@ -4,20 +4,21 @@ var func = function() {
   var div = document.createElement("div");
   div.className = "form-horizontal"
   div.innerHTML = `
-    <div class="form-group">
+    <form action='/posting' method='POST'>
+    <div class="form-group" id="salad">
         <div class="col-md-6">
-            <textarea class="form-control" rows="3" placeholder="What's up?" name="body" required></textarea>
+            <textarea class="form-control" rows="3" placeholder="What's up?" name="hello" required></textarea>
         </div>
     </div>
+    </form>
   `;
   document.getElementById("feed").appendChild(div);
 
   var button = document.createElement("a");
-  button.type = "button";
+  button.type = "submit";
   button.className = "btn btn-success ml-3";
   button.innerHTML = "Post!";
-  button.href = "/posting";
-  document.getElementById("feed").appendChild(button);
+  document.getElementById("salad").appendChild(button);
   /*var thing = document.createElement("div");
   thing.innerText = "Hello World";
   document.getElementById("feed").appendChild(thing);*/
