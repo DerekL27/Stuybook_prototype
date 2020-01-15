@@ -83,8 +83,8 @@ derekL -- 2020-01-14 20:14 ==> 2020-01-15 00:34
 Did schedule stuff and did a bit more posting stuff
 <<<<<<< HEAD
 
-chenT -- 2020-01-14 23:03 
-Fixed up games page, trivia & continued to work on anagrams 
+chenT -- 2020-01-14 23:03
+Fixed up games page, trivia & continued to work on anagrams
 =======
 Added authors to posts
 Implemented purgomalum
@@ -93,5 +93,7 @@ Started work on groups (create group,add members, and checking membership)
 Fixed merge error a bit, bio doesn't work but I'm too tired to fix it
 
 derekL -- 2020-01-15 00:45
-I fixed it
->>>>>>> a3f8775feb3ea92fbc4c65131797f0d2a9008b46
+Fixed the bugs
+
+derekL -- 2020-01-15 10:45
+Made profile picture preserve aspect ratio

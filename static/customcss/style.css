@@ -27,3 +27,11 @@ header {
 .carousel-position {
   filter: invert(100%);
 }
+
+
+.img {
+    max-width:64px;
+    max-height:64px;
+    width:auto;
+    height:auto;
+}
