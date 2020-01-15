@@ -12,14 +12,14 @@ This is the leaderboard page
   <thead>
     <tr>
       <th scope="col">Username</th>
-      <th scope="col">Trivia Score</th>
       <th scope="col">Anagrams Score</th>
+      <th scope="col">Trivia Score</th>
     </tr>
   </thead>
   <tbody>
     {% for i in stuff %}
     <tr>
-      <td>{{i[0]}}</td>
+      <td>{{names[loop.index-1][0]}}</td>
       <td>{{i[2]}}</td>
       <td>{{i[3]}}</td>
     </tr>
