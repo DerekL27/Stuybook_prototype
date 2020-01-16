@@ -18,7 +18,6 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY AUTOINCREMENT, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS reminders (reminderID INTEGER PRIMARY KEY AUTOINCREMENT, userID INTEGER, reminder TEXT )')
-    c.close()
 
 def update_user(username, field, newvalue):
     db = sqlite3.connect(DB_FILE)
@@ -30,7 +29,6 @@ def update_user(username, field, newvalue):
             )
         )
     db.commit()
-    c.close()
     return "Success"
 
 def addReminder(c,userID,text):
