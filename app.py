@@ -176,6 +176,7 @@ def creategroup():
         return render_template('mygroups.html', user=session["username"], groups = groups,
                                                 message="Group Already Exists")
     createGroup(c, request.form['groupname'], session["userID"])
+    db.commit()
     return redirect(url_for('mygroups'))
 
 @app.route("/groups")
@@ -198,9 +199,10 @@ def joingroup():
         c.execute("SELECT groupName FROM groups")
         a = c.fetchall()
         return render_template('groups.html', groups=a, message="You're already in this group!")
-    print(request.form['whichgroup'])
-    print(session["userID"])
+    #print(request.form['whichgroup'])
+    #print(session["userID"])
     addtoGroup(c, request.form['whichgroup'], session["userID"])
+    db.commit()
     return redirect(url_for('groups'))
 
 @app.route("/<groupName>")
@@ -223,6 +225,7 @@ def leavegroup():
     c.execute("SELECT groupID FROM groups WHERE groupName = '%s'" % request.form['group'])
     a = c.fetchone()
     removefromGroup(c, a[0], session["userID"])
+    db.commit()
     return redirect(url_for('mygroups'))
 
 @app.route("/settings")
@@ -301,6 +304,7 @@ def deletereminder():
     if 'userID' not in session:
         redirect(url_for("login"))
     removeReminder(c, session['userID'], request.form['node'])
+    db.commit()
     return redirect(url_for("profile"))
 
 @app.route("/logout")
