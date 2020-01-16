@@ -163,9 +163,12 @@ def answerBank(c):
     return bankDic
 
 def checkAnagrams(s):
-    q = request.urlopen("http://www.anagramica.com/all/:teardrop").read()
+    link = "http://www.anagramica.com/all/:" + s
+    q = request.urlopen(link).read()
+    #q = request.urlopen("http://www.anagramica.com/all/:teardrop").read()
     count = json.loads(q)['all']
-    for i in count:
+    print(count)
+    for i in range(len(count)):
         if (count[i] == s):
             return True
     return False
@@ -178,3 +181,8 @@ def printWords(s):
     q = request.urlopen(link).read()
     count = json.loads(q)['all']
     return count
+
+def updateAnagramsScore(c,userID,score): #where score is how many they got right on the most recent trivia thing
+    c.execute("SELECT anagramScore FROM leaderboards WHERE userID = '{}'".format(userID))
+    asdf = c.fetchall()[0][0]
+    c.execute("UPDATE leaderboards SET anagramScore = {} WHERE userID = {}".format(asdf+score,userID))

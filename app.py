@@ -276,7 +276,9 @@ def anagramsresults():
     dic = request.form['original']
     list = dbfunc.printWords(dic)
     print(input)
-    return render_template('anagramsresults.html', input = input, q = list)
+    if (dbfunc.checkAnagrams(dic)):
+        dbfunc.updateAnagramsScore(c,userID,len(input)*1)
+    return render_template('anagramsresults.html', input = input, q = list, point = len(input)*1)
 
 @app.route("/posting", methods=["POST"])
 def posting():

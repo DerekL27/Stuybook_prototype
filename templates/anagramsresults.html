@@ -8,7 +8,7 @@
   <h1> Anagrams Game </h1>
 </div>
 <div class="container border border-info" style="background-color: #97E2F4;"> <br>
-  <div class='text-center'> <h4> Your Answer: </h4> {{input}}  </div>
+  <div class='text-center'> <h4> Your Answer: </h4> {{input}}  </div> <br>
   <div class='text-center'> <h4> Acceptable Answers: </h4>
     <ol> |
     {% for i in q %}
@@ -16,7 +16,14 @@
     {% endfor %}
     </ol>
   </div>
+  <div class='text-center'> <h4> Point(s) Awarded </h4> {{point}}  </div> <br>
+  <div class="text-center">
+    <a href="/leaderboard" class="btn btn-info">Go to Leaderboard</a>
+  </div>
+  <br>
+
 </div>
+
 
 
 
