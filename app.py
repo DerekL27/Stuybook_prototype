@@ -139,14 +139,16 @@ def schedule():
             newschedule += [oldschedule[i]]
         else:
             newschedule += [currentperiod]
-    regroup(c,session["userID"], newschedule)
+    #regroup(c,session["userID"], newschedule)
     updateSchedule(c,session["userID"],newschedule)
+    db.commit()
     return redirect('/myprofile')
 
 @app.route("/changePic", methods=["POST"])
 def changePic():
     picUrl = request.form['newImage']
     c.execute("UPDATE users SET image = ? WHERE userID = ?",(picUrl,session['userID']))
+    db.commit()
     return redirect("/myprofile")
 
 @app.route("/edit_bio", methods=["POST"])
@@ -345,6 +347,8 @@ def anagramsresults():
 
 @app.route("/posting", methods=["POST"])
 def posting():
+    if "userID" not in session:
+        return redirect(url_for('login'))
     if(len(request.form['body'].rstrip()) == 0):
         flash("Body has no text!")
         return redirect('/home')
@@ -355,7 +359,7 @@ def posting():
         thing2 = thing.read()
         thing3 = json.loads(thing2)
         thing4 = thing3['result'].replace("`AGDEIlGEdzgzXEN`"," ")
-        addPost(session['userID'],thing4)
+        addPost(c, session['userID'],thing4)
         return redirect('/home')
 
 

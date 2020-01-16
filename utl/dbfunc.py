@@ -18,6 +18,7 @@ def setup(c):
     c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY AUTOINCREMENT, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
     c.execute('CREATE TABLE IF NOT EXISTS reminders (reminderID INTEGER PRIMARY KEY AUTOINCREMENT, userID INTEGER, reminder TEXT )')
+    c.close()
 
 def update_user(username, field, newvalue):
     db = sqlite3.connect(DB_FILE)
@@ -73,13 +74,9 @@ def countRows(c,table):
     c.execute("SELECT COUNT(*) FROM {}".format(table))
     return c.fetchall()[0][0]
 
-def addPost(userID,text):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
+def addPost(c, userID,text):
     #nextIndex = int(countRows(c,"posts"))
     c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(None,userID,text,blobify([]),blobify([])))
-    db.commit()
-    c.close()
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
@@ -149,9 +146,9 @@ def addtoGroup(c,groupName,userID):
     c.execute("SELECT members FROM groups WHERE groupName = '%s'" % groupName)
     list = c.fetchall()[0][0]
     list = unblob(list)
-    print(list)
+    #print(list)
     list.append(userID)
-    print(list)
+    #print(list)
     list = blobify(list)
     c.execute("UPDATE groups SET members = ? WHERE groupName = ?",(list,groupName))
 
