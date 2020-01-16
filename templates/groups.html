@@ -1,0 +1,27 @@
+{% extends "basenav.html" %}
+{% block title %} Groups {% endblock %}
+
+{% block body %}
+
+{% if message %}
+  <div class="alert alert-warning" role="alert">
+    <strong>Wait!</strong> {{ message }}
+  </div>
+{% endif %}
+
+<div class="container-fluid mt-3">
+  <h4><span class="badge badge-primary">Here are all the groups in StuyBook:
+      </span></h4>
+  <ul>
+    {% for i in groups %}
+      <li> {{ i[0] }} </li>
+      <form action="/joingroup" method="POST">
+        <input type="hidden" name="whichgroup" value="{{ i[0] }}"></input>
+        <button type="submit" class="btn btn-success" style="display:inline;">Join</button>
+      </form>
+    {% endfor %}
+
+  </ul>
+
+</div>
+{% endblock %}

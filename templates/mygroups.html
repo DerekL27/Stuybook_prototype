@@ -2,24 +2,40 @@
 {% block title %}  {{user}}'s Groups {% endblock %}
 
 {% block body %}
-This is all the groups you are a part of.
-{% for i in groups %}
-<<u> {{i[0][1]}}</u>
-{% endfor %}
-<br><br><br><br>
-<b>Create new group:</b>
-<br>
-<form>
-  <div class="form-group">
-    <label for="createGroup" class="col-sm-2 col-form-label">Group Name:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="createGroup" placeholder="Your groupname here!">
-    </div>
+{% if message %}
+  <div class="alert alert-warning" role="alert">
+    <strong>Oops...</strong> {{ message }}
   </div>
-  <div class="form-group">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Create</button>
+{% endif %}
+
+<div class="container-fluid mt-3">
+  <h4><span class="badge badge-primary">Here are all the groups you are a part of:
+      </span></h4>
+
+  <ul>
+    {% for i in groups %}
+      <li> {{ i[0] }} </li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+<br><br>
+<div class="container p-0">
+  <hr>
+  <h4>Create New Group:</h4>
+
+  <form action="/create-group" method="POST">
+    <div class="form-group">
+      <label for="createGroup" class="col-sm-2 col-form-label">Group Name:</label>
+      <div class="col-sm-10">
+        <input class="form-control" id="createGroup" placeholder="Your group name here!" name="groupname">
+      </div>
     </div>
-  </div>
-</form>
+    <div class="form-group">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
 {% endblock %}

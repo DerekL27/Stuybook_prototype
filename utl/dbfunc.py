@@ -8,16 +8,16 @@ import random
 DB_FILE = "database.db"
 
 def setup(c):
-    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT, bio TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS schedules (scheduleID INTEGER PRIMARY KEY, schedule BLOB)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, username TEXT, password TEXT, displayName TEXT, image TEXT, bio TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS schedules (scheduleID INTEGER PRIMARY KEY AUTOINCREMENT, schedule BLOB)')
     c.execute('CREATE TABLE IF NOT EXISTS classNames (courseCode TEXT PRIMARY KEY, className TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS groups (groupID INTEGER PRIMARY KEY, groupName TEXT, posts BLOB, members BLOB)')
-    c.execute('CREATE TABLE IF NOT EXISTS posts (postIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB, comments BLOB)')
-    c.execute('CREATE TABLE IF NOT EXISTS comments (commentIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB, replies BLOB)')
-    c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY, author INTEGER, words TEXT, likers BLOB)')
-    c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
+    c.execute('CREATE TABLE IF NOT EXISTS groups (groupID INTEGER PRIMARY KEY AUTOINCREMENT, groupName TEXT, posts BLOB, members BLOB)')
+    c.execute('CREATE TABLE IF NOT EXISTS posts (postIndex INTEGER PRIMARY KEY AUTOINCREMENT, author INTEGER, words TEXT, likers BLOB, comments BLOB)')
+    c.execute('CREATE TABLE IF NOT EXISTS comments (commentIndex INTEGER PRIMARY KEY AUTOINCREMENT, author INTEGER, words TEXT, likers BLOB, replies BLOB)')
+    c.execute('CREATE TABLE IF NOT EXISTS replies (replyIndex INTEGER PRIMARY KEY AUTOINCREMENT, author INTEGER, words TEXT, likers BLOB)')
+    c.execute('CREATE TABLE IF NOT EXISTS leaderboards (userID INTEGER PRIMARY KEY AUTOINCREMENT, superheroScore INTEGER, anagramScore INTEGER, triviaScore INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS trivia (number INTEGER, questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS reminders (reminderID INTEGER PRIMARY KEY, userID INTEGER, reminder TEXT )')
+    c.execute('CREATE TABLE IF NOT EXISTS reminders (reminderID INTEGER PRIMARY KEY AUTOINCREMENT, userID INTEGER, reminder TEXT )')
 
 def update_user(username, field, newvalue):
     db = sqlite3.connect(DB_FILE)
@@ -33,12 +33,12 @@ def update_user(username, field, newvalue):
     return "Success"
 
 def addReminder(c,userID,text):
-    nextIndex = int(countRows(c,"reminders"))
-    c.execute("SELECT reminder FROM reminders WHERE reminderID = %s" % nextIndex)
-    a = c.fetchone()
-    if a != None:
-        nextIndex += 1;
-    c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(nextIndex,userID,text))
+    #nextIndex = int(countRows(c,"reminders"))
+    #c.execute("SELECT reminder FROM reminders WHERE reminderID = %s" % nextIndex)
+    #a = c.fetchone()
+    #if a != None:
+        #nextIndex += 1;
+    c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(None,userID,text))
 
 
 def getReminders(c,userID):
@@ -47,19 +47,6 @@ def getReminders(c,userID):
 
 def removeReminder(c, userID, text):
     c.execute("DELETE FROM reminders WHERE userID = %s AND reminder = '%s'" % (userID, text))
-
-def placeholderName(c,userID):
-    nextIndex = int(countRows(c,"groups"))
-    groupsIn = [] #all the groups user is in
-    groupsInfo = [] #basically SELECT * FROM groups WHERE (user is a member of)
-    for i in range(nextIndex):
-        c.execute("SELECT members FROM groups WHERE groupID = {}".format(nextIndex))
-        if(userID in unblob(c.fetchall()[0][0])):
-            groupsIn.append(i)
-    for i in groupsIn:
-        c.execute("SELECT * FROM groups WHERE groupID = {}".format(i))
-        groupsInfo.append(c.fetchall()[0])
-    return groupsInfo
 
 def blobify(data):
     return marshal.dumps(data)
@@ -89,29 +76,74 @@ def countRows(c,table):
 def addPost(userID,text):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    nextIndex = int(countRows(c,"posts"))
-    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(nextIndex,userID,text,blobify([]),blobify([])))
+    #nextIndex = int(countRows(c,"posts"))
+    c.execute("INSERT INTO posts VALUES (?, ?, ?, ?, ?)",(None,userID,text,blobify([]),blobify([])))
     db.commit()
     c.close()
 
 #c is the cursor being used
 def createUser(c, username, password, displayname, email, image):
-    nextIndex = int(countRows(c,"users"))
-    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)",(nextIndex, email, username, password, displayname, image, ""))
-    c.execute("INSERT INTO schedules VALUES(?, ?)",(nextIndex,blobify([None,None,None,None,None,None,None,None,None,None])))
-    c.execute("INSERT INTO leaderboards VALUES (?, ?, ?, ?)",(nextIndex,0,0,0))
+    #nextIndex = int(countRows(c,"users"))
+    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)",(None, email, username, password, displayname, image, ""))
+    c.execute("INSERT INTO schedules VALUES(?, ?)",(None,blobify([None,None,None,None,None,None,None,None,None,None])))
+    c.execute("INSERT INTO leaderboards VALUES (?, ?, ?, ?)",(None,0,0,0))
+
+#### GROUPS
 
 def createGroup(c,groupName,userID):
-    nextIndex = int(countRows(c,"groups"))
-    c.execute("INSERT INTO groups VALUES (?, ?, ?, ?)",(nextIndex,groupName,blobify([]),blobify([userID])))
+    #nextIndex = int(countRows(c,"groups"))
+    c.execute("INSERT INTO groups VALUES (?, ?, ?, ?)",(None,groupName,blobify([]),blobify([userID])))
+    c.execute("SELECT members FROM groups")
+    a = c.fetchall()
+    print("A")
+    print(a)
+    print("B")
 
-def addtoGroup(c,groupID,userID):
-    c.execute("SELECT members FROM groups WHERE groupID = {}".format(groupID))
+def findGroups(c,userID):
+    groups = []
+    for i in range(0, int(countRows(c,"groups"))+1):
+        c.execute("SELECT members FROM groups WHERE groupID = {}".format(i))
+        a = c.fetchall()
+        print(a)
+        if a != []:
+            if userID in unblob(a[0][0]):
+                groups.append(i)
+    return groups
+
+def convert(c,list):
+    result = []
+    for i in list:
+        c.execute("SELECT groupName FROM groups WHERE groupID = {}".format(i))
+        a = c.fetchone()
+        result.append(a)
+    return result;
+    #nextIndex = int(countRows(c,"groups"))
+#    groupsIn = [] #all the groups user is in
+#    groupsInfo = [] #basically SELECT * FROM groups WHERE (user is a member of)
+#    for i in range(nextIndex):
+#        c.execute("SELECT members FROM groups WHERE groupID = {}".format(nextIndex))
+#        if(userID in unblob(c.fetchall()[0][0])):
+#            groupsIn.append(i)
+#    for i in groupsIn:
+#        c.execute("SELECT * FROM groups WHERE groupID = {}".format(i))
+#        groupsInfo.append(c.fetchall()[0])
+#    return groupsInfo
+
+def addtoGroup(c,groupName,userID):
+    c.execute("SELECT members FROM groups WHERE groupName = {}".format(groupName))
     list = c.fetchall()[0][0]
     list = unblob(list)
     list.append(userID)
     list = blobify(list)
     c.execute("UPDATE groups SET members = ? WHERE groupID = ?",(list,groupID))
+
+def removefromGroup(c, groupID, userID):
+    c.execute("SELCECT members FROM groups WHERE groupID = {}".format(groupID))
+    list = c.fetchall()[0][0]
+    list = unblob(list)
+    list.remove(userID)
+    list = blobify(list)
+    c.execute("UPDATE groups SET members ? WHERE groupID = ?",(list,groupID))
 
 def getSchedule(c,userID):
     c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))

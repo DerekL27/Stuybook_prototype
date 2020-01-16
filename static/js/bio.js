@@ -1,5 +1,6 @@
 var bro = document.getElementById('editbio')
 var another = function() {
+  console.log('yes');
   var div = document.createElement("div");
   div.className = "form-horizontal"
   var place = document.getElementById('currentbio').innerHTML
@@ -13,6 +14,6 @@ var another = function() {
     <button type="submit" class="btn btn-warning ml-3">Save</button><br><br>
     </form>
   `;
-  document.getElementById("editbox").appendChild(div);
+  //document.getElementById("editbox").appendChild(div);
 }
 bro.addEventListener('click', another);

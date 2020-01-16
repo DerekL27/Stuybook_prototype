@@ -3,9 +3,9 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random, string
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore, addReminder, getReminders, removeReminder
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, convert, unblob
+from utl.dbfunc import findGroups, updateTriviaScore, addReminder, getReminders, removeReminder, createGroup, addtoGroup, removefromGroup
 import utl.dbfunc as dbfunc
-
 
 app = Flask(__name__)
 
@@ -139,6 +139,7 @@ def schedule():
             newschedule += [oldschedule[i]]
         else:
             newschedule += [currentperiod]
+    regroup(c,session["userID"], newschedule)
     updateSchedule(c,session["userID"],newschedule)
     return redirect('/myprofile')
 
@@ -160,8 +161,43 @@ def mygroups():
     """Returns Home Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    groups = placeholderName(c,session['userID']) #returns all the info for the groups that user is in
-    return render_template('mygroups.html', user=session["username"], groups = groups)
+    groups = findGroups(c, session["userID"])
+    return render_template('mygroups.html', user=session["username"], groups = convert(c, groups))
+
+@app.route("/create-group", methods=["POST"])
+def creategroup():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("SELECT groupID FROM groups WHERE groupName = '%s'" % request.form['groupname'])
+    a = c.fetchone()
+    if a != None:
+        return render_template('mygroups.html', user=session["username"], groups = groups,
+                                                message="Group Already Exists")
+    createGroup(c, request.form['groupname'], session["userID"])
+    return redirect(url_for('mygroups'))
+
+@app.route("/groups")
+def groups():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("SELECT groupName FROM groups")
+    a = c.fetchall()
+    print(a)
+    return render_template('groups.html', groups=a)
+
+@app.route("/joingroup", methods=["POST"])
+def joingroup():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("SELECT members FROM groups WHERE groupName = '%s'" % request.form['whichgroup'])
+    list = c.fetchall()[0][0]
+    list = unblob(list)
+    if session['userID'] in list:
+        c.execute("SELECT groupName FROM groups")
+        a = c.fetchall()
+        return render_template('groups.html', groups=a, message="You're already in this group!")
+    addtoGroup(c, request.form['whichgroup'], session["userID"])
+    return redirect(url_for('login'))
 
 @app.route("/settings")
 def settings():
