@@ -8,14 +8,17 @@
 Our project is aimed towards providing a fully functional networking site for Stuyvesant students, mostly geared towards self-management, entertainment, and community. By incorporating REST APIs, JavaScript, Flask, and databases managed by SQLite, our site will allow users to meet other Stuy students and develop their personal profiles for multiple uses.
 
 ## APIs Utilized:
-[PurgoMalum](https://www.purgomalum.com/)
+[PurgoMalum](https://docs.google.com/document/d/1QGshjLoPjlUZvbCDr85_kQJXqY_dArp62tv0YLboz4M/edit)
   - This API allows curse words to be censored with an asterisk. We use this API to assure that no curse words are used in posts.
 
-[Anagrams](http://www.anagramica.com/api)
+[Anagrams](https://docs.google.com/document/d/1ateB2RAD_6hGGhowl7nA707222m6HcotyV57sgVxrr8/edit)
   - We use this API to make our anagrams game, it will give all the word combinations of a given set of random words. 
 
-[The Open Trivia API](https://opentdb.com/api_config.php)
+[The Open Trivia API](https://docs.google.com/document/d/18dMPylFMGCljqjTa-GZnk-ZDE68HLR9Rvz8rShwlp-4/edit)
   - We use this API to get trivia questions for our trivia game. It will provide a collection of trivia questions. 
+
+## Video Demo
+[video demo here](https://www.youtube.com/) 
 
 ## How to Run the Project:
 - We are assuming that the user has installed Python3 and pip in their environment
