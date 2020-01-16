@@ -46,3 +46,7 @@ img {
   float: left;
   font-size: 16px;
 }
+
+.dropdown-menu {
+  width: 300px;
+}

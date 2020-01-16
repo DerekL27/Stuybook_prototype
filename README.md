@@ -9,19 +9,13 @@ Our project is aimed towards providing a fully functional networking site for St
 
 ## APIs Utilized:
 [PurgoMalum](https://www.purgomalum.com/)
-  - We use this API to assure that no curse words are used in posts.
-
-[Deck Of Cards](https://deckofcardsapi.com/)
-  - We will use for our card game.
-
-[The SuperHero API](https://superheroapi.com/api/)
-  - We use this API to get superhero customization for our card game.
+  - This API allows curse words to be censored with an asterisk. We use this API to assure that no curse words are used in posts.
 
 [Anagrams](http://www.anagramica.com/api)
-  - We use this API to make our anagrams game.
+  - We use this API to make our anagrams game, it will give all the word combinations of a given set of random words. 
 
 [The Open Trivia API](https://opentdb.com/api_config.php)
-  - We use this API to get trivia questions for our trivia game.
+  - We use this API to get trivia questions for our trivia game. It will provide a collection of trivia questions. 
 
 ## How to Run the Project:
 - We are assuming that the user has installed Python3 and pip in their environment
@@ -49,5 +43,5 @@ $ cd <name of cloned directory>
 
 View the webpage by opening a web browser and visiting: http://127.0.0.1:5000/	
 
----	---
+-----------
 © Copyright 2020 Team snip_snip -- Tammy Chen, Grace Mao & Derek Leung

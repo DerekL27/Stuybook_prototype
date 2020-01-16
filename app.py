@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore, addReminder, getReminders, removeReminder
 import utl.dbfunc as dbfunc
 
 
@@ -64,6 +64,9 @@ def register():
     session['userID'] = a[0]
     session['username'] = a[1]
     session['registered'] = True
+    addReminder(c, session['userID'], "Make friends on StuyBook!")
+    db.commit()
+    #print(getReminders(c, session["userID"]))
     return redirect(url_for('profile'))
 
 @app.route("/auth", methods=['POST'])
@@ -115,12 +118,14 @@ def profile():
     c.execute("SELECT username, displayName, image, email, bio FROM users WHERE userID = '{}'".format(session['userID']))
     bruh = c.fetchone()
     schedule = getSchedule(c, session["userID"])
+    remlist = getReminders(c, session["userID"])
+    #print(remlist)
     return render_template('profile.html', username = bruh[0],
                                            displayName = bruh[1],
                                            schedule = schedule,
                                            image = bruh[2],
                                            email = bruh[3],
-                                           bio = bruh[4], message=message)
+                                           bio = bruh[4], message=message, reminders=remlist)
 
 @app.route("/update_schedule", methods=["POST"])
 def schedule():
@@ -215,6 +220,26 @@ def changing():
             return redirect(url_for('settings'))
         update_user(session['username'], "password", request.form['new_password']) #updating the database
         return render_template('settings.html', changed2=True)
+
+@app.route("/reminder", methods=["POST"])
+def reminder():
+    if 'userID' not in session:
+        redirect(url_for("login"))
+    print(request.form['rem']+"!")
+    if request.form['rem'] != "":
+        addReminder(c, session['userID'], request.form['rem'])
+        print("HERE")
+        print(getReminders(c, session["userID"]))
+        db.commit()
+        return redirect(url_for("profile"))
+    return redirect(url_for("profile"))
+
+@app.route("/deleterem", methods=["POST"])
+def deletereminder():
+    if 'userID' not in session:
+        redirect(url_for("login"))
+    removeReminder(c, session['userID'], request.form['node'])
+    return redirect(url_for("profile"))
 
 @app.route("/logout")
 def logout():

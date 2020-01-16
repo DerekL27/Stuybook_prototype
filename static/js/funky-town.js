@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var bro = document.getElementById('editbio')
 var another = function() {
   var div = document.createElement("div");
@@ -40,6 +41,8 @@ a.addEventListener('click', func);
 
 
 // ANAGRAMS ADDING WORDS
+=======
+>>>>>>> 8e2562de19fa467bc8fc0ab26897125f56970076
 function newElement() {
   var li = document.createElement("li");
   var inputValue = document.getElementById("myInput").value;

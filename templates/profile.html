@@ -19,16 +19,16 @@
   <div class="card">
     <img class = "card-img shadow-sm p-4 mb-4 bg-white border border-primary rounded-top" src="{{image}}">
     <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle"
+  <button class="btn btn-secondary dropdown-toggle ml-5"
           type="button" id="dropdownMenu1" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
     Want to change your profile picture?
-  </button>
+  </button> <br><br>
   <div class="dropdown-menu" aria-labelledby="changePicDropdown">
-    <form action="/changePic" method="POST">
+    <form class="pl-3 pr-3" action="/changePic" method="POST">
   <label class="sr-only" for="inlineFormInputName2">Name</label>
-  <input type="text" class="form-control mb-2 mr-sm-2" id="imageurl" name="newImage" placeholder="Paste your image link here!">
-  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    <input type="text" class="form-control mb-2" id="imageurl" name="newImage" placeholder="Paste your image link here!">
+  <button type="submit" class="btn btn-primary mb-1">Submit</button>
 </form>
   </div>
 </div>
@@ -49,17 +49,21 @@
     <div class="card-body">
       <div id="reminder-heading">
         <h4 class="card-title">Reminders</h4>
-        <div class="input-group mb-3">
-          <input type="text" id="myInput" placeholder="Calculus homework...">
-          <div class="input-group-append">
-            <button class="btn btn-outline-success" type="button" onclick="newElement()">Add</button>
+        <form action="/reminder" method="POST">
+          <div class="input-group mb-3">
+            <input class="form-control" id="myInput" placeholder="Calculus homework..." name="rem">
+            <div class="input-group-append">
+
+                <button class="btn btn-outline-success" type="submit" onclick="addRem()">Add</button>
+
+            </div>
           </div>
-        </div>
+        </form>
       </div>
 
-      <ul id="reminder-list">
+      <ul id="reminder-list" onload="close()">
         {% for r in reminders %}
-          <li id="reminder-item">{{ r }}</li>
+          <li class="reminder-item">{{ r[0] }}</li>
         {% endfor %}
       </ul>
     </div>
@@ -102,5 +106,8 @@
 
   </form>
 </div>
+
+<script type="text/javascript" src="/static/js/bio.js"></script>
+<script type="text/javascript" src="/static/js/reminders.js"></script>
 
 {% endblock %}
