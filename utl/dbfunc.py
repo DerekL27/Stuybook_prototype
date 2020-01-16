@@ -95,16 +95,16 @@ def createGroup(c,groupName,userID):
     c.execute("INSERT INTO groups VALUES (?, ?, ?, ?)",(None,groupName,blobify([]),blobify([userID])))
     c.execute("SELECT members FROM groups")
     a = c.fetchall()
-    print("A")
-    print(a)
-    print("B")
+    #print("A")
+    #print(a)
+    #print("B")
 
 def findGroups(c,userID):
     groups = []
     for i in range(0, int(countRows(c,"groups"))+1):
         c.execute("SELECT members FROM groups WHERE groupID = {}".format(i))
         a = c.fetchall()
-        print(a)
+        #print(a)
         if a != []:
             if userID in unblob(a[0][0]):
                 groups.append(i)
@@ -116,7 +116,7 @@ def convert(c,list):
         c.execute("SELECT groupName FROM groups WHERE groupID = {}".format(i))
         a = c.fetchone()
         result.append(a)
-    return result;
+    return result
     #nextIndex = int(countRows(c,"groups"))
 #    groupsIn = [] #all the groups user is in
 #    groupsInfo = [] #basically SELECT * FROM groups WHERE (user is a member of)
@@ -129,28 +129,48 @@ def convert(c,list):
 #        groupsInfo.append(c.fetchall()[0])
 #    return groupsInfo
 
+def convertEmail(c, list):
+    result = []
+    for i in list:
+        c.execute("SELECT email FROM users WHERE userID = %s" % i)
+        a = c.fetchone()[0]
+        result.append(a)
+    return result
+
+def convertNames(c, list):
+    result = []
+    for i in list:
+        c.execute("SELECT displayName FROM users WHERE userID = %s" % i)
+        a = c.fetchone()[0]
+        result.append(a)
+    return result
+
 def addtoGroup(c,groupName,userID):
-    c.execute("SELECT members FROM groups WHERE groupName = {}".format(groupName))
+    c.execute("SELECT members FROM groups WHERE groupName = '%s'" % groupName)
     list = c.fetchall()[0][0]
     list = unblob(list)
+    print(list)
     list.append(userID)
+    print(list)
     list = blobify(list)
-    c.execute("UPDATE groups SET members = ? WHERE groupID = ?",(list,groupID))
+    c.execute("UPDATE groups SET members = ? WHERE groupName = ?",(list,groupName))
 
 def removefromGroup(c, groupID, userID):
-    c.execute("SELCECT members FROM groups WHERE groupID = {}".format(groupID))
+    c.execute("SELECT members FROM groups WHERE groupID = %s" % groupID)
     list = c.fetchall()[0][0]
     list = unblob(list)
     list.remove(userID)
     list = blobify(list)
-    c.execute("UPDATE groups SET members ? WHERE groupID = ?",(list,groupID))
+    print(list)
+    print(groupID)
+    c.execute("UPDATE groups SET members = ? WHERE groupID = ?",(list,groupID))
 
 def getSchedule(c,userID):
     c.execute("SELECT schedule FROM schedules WHERE scheduleID = '{}'".format(userID))
     return unblob(c.fetchall()[0][0])
 
 def updateSchedule(c,userID,newschedule):
-    print("hello!!")
+    #print("hello!!")
     c.execute("UPDATE schedules SET schedule = ? WHERE scheduleID = ?",(blobify(newschedule),userID))
 
 def quest(bank):
@@ -199,9 +219,9 @@ def checkAnagrams(s):
     q = request.urlopen(link).read()
     #q = request.urlopen("http://www.anagramica.com/all/:teardrop").read()
     count = json.loads(q)['all']
-    print(count)
+    #print(count)
     for i in range(len(count)):
-        print(count[i])
+        #print(count[i])
         if (count[i].lower() == s):
             return True
     return False

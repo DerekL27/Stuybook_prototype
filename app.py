@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random, string
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, convert, unblob
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, convert, unblob, convertNames, convertEmail
 from utl.dbfunc import findGroups, updateTriviaScore, addReminder, getReminders, removeReminder, createGroup, addtoGroup, removefromGroup, updateAnagramsScore
 import utl.dbfunc as dbfunc
 
@@ -102,7 +102,7 @@ def home():
         authors.append(c.fetchall()[0][0])
     posts.reverse()
     authors.reverse()
-    print(authors)
+    #print(authors)
     return render_template('home.html', user=session["username"], posts=posts, authors=authors)
 
 @app.route("/myprofile")
@@ -162,7 +162,7 @@ def mygroups():
     if "userID" not in session:
         return redirect(url_for('login'))
     groups = findGroups(c, session["userID"])
-    return render_template('mygroups.html', user=session["username"], groups = convert(c, groups))
+    return render_template('mygroups.html', user=session["username"], groups=convert(c, groups))
 
 @app.route("/create-group", methods=["POST"])
 def creategroup():
@@ -182,7 +182,7 @@ def groups():
         return redirect(url_for('login'))
     c.execute("SELECT groupName FROM groups")
     a = c.fetchall()
-    print(a)
+    #print(a)
     return render_template('groups.html', groups=a)
 
 @app.route("/joingroup", methods=["POST"])
@@ -196,8 +196,10 @@ def joingroup():
         c.execute("SELECT groupName FROM groups")
         a = c.fetchall()
         return render_template('groups.html', groups=a, message="You're already in this group!")
+    print(request.form['whichgroup'])
+    print(session["userID"])
     addtoGroup(c, request.form['whichgroup'], session["userID"])
-    return redirect(url_for('login'))
+    return redirect(url_for('groups'))
 
 @app.route("/<groupName>")
 def groupfeed(groupName):
@@ -205,7 +207,21 @@ def groupfeed(groupName):
         return redirect(url_for('login'))
     c.execute("SELECT members FROM groups WHERE groupName = '%s'" % groupName)
     list = c.fetchall()[0][0]
+    list = unblob(list)
+    names = convertNames(c, list)
+    emails = convertEmail(c, list)
+    #print(names)
+    #print(emails)
+    return render_template('groupfeed.html', groupName = groupName, members=names, emails=emails)
 
+@app.route("/leaving", methods=["POST"])
+def leavegroup():
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("SELECT groupID FROM groups WHERE groupName = '%s'" % request.form['group'])
+    a = c.fetchone()
+    removefromGroup(c, a[0], session["userID"])
+    return redirect(url_for('mygroups'))
 
 @app.route("/settings")
 def settings():
@@ -269,11 +285,11 @@ def changing():
 def reminder():
     if 'userID' not in session:
         redirect(url_for("login"))
-    print(request.form['rem']+"!")
+    #print(request.form['rem']+"!")
     if request.form['rem'] != "":
         addReminder(c, session['userID'], request.form['rem'])
-        print("HERE")
-        print(getReminders(c, session["userID"]))
+    #    print("HERE")
+    #    print(getReminders(c, session["userID"]))
         db.commit()
         return redirect(url_for("profile"))
     return redirect(url_for("profile"))
@@ -307,10 +323,10 @@ def anagrams():
         return redirect(url_for('login'))
     userID = session["userID"]
     str = dbfunc.randomLetters()
-    print(str)
+    #print(str)
     split = [char for char in str]
-    print(split)
-    print(dbfunc.printWords(str))
+    #print(split)
+    #print(dbfunc.printWords(str))
     return render_template('anagrams.html', user=session["username"], q = split)
 
 @app.route("/anagramsresults", methods=["POST"])
@@ -321,9 +337,9 @@ def anagramsresults():
     input = request.form['input']
     dic = request.form['original']
     list = dbfunc.printWords(dic)
-    print(input)
+    #print(input)
     if (dbfunc.checkAnagrams(input)):
-        print("hello")
+        #print("hello")
         updateAnagramsScore(c,userID,len(input)*1)
     return render_template('anagramsresults.html', input = input, q = list, point = len(input)*1)
 
@@ -392,8 +408,8 @@ def leaderboard():
     stuff = getAllLeaderboard(c)
     c.execute("SELECT displayName FROM users")
     names = c.fetchall()
-    print(stuff)
-    print(names)
+    #print(stuff)
+    #print(names)
     return render_template('leaderboard.html', stuff = stuff, names = names)
 
 

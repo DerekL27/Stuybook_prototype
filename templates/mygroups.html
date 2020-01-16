@@ -14,7 +14,7 @@
 
   <ul>
     {% for i in groups %}
-      <li> {{ i[0] }} </li>
+      <li> <a href="{{ url_for('groupfeed', groupName = i[0]  ) }}"> {{ i[0] }}</a> </li>
     {% endfor %}
   </ul>
 

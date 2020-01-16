@@ -1,0 +1,33 @@
+{% extends "basenav.html" %}
+{% block title %}  {{groupName}} {% endblock %}
+
+{% block body %}
+
+<div class="container m-3">
+  <form action="/leaving" method="POST">
+    <input type="hidden" name="group" value="{{ groupName }}">
+    <button type="submit" class="btn btn-outline-danger">Leave Group</button>
+  </form>
+</div>
+
+<div class="container-fluid">
+  <table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in members %}
+    <tr>
+      <td>{{ i }}</td>
+      <td>{{ emails[loop.index-1] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</div>
+
+{% endblock %}
