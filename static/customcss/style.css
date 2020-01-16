@@ -50,3 +50,35 @@ img {
 .dropdown-menu {
   width: 300px;
 }
+
+#reminder-list {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the list items */
+.reminder-item {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 20px;
+  list-style-type: none;
+  background: #fffab3;
+  font-size: 18px;
+  transition: 0.2s;
+
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+.reminder-item:nth-child(odd) {
+  background: #fffde0;
+}
+
+/* Darker background-color on hover */
+.reminder-item:hover {
+  background: #f2c577;
+}

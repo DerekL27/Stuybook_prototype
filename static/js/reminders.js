@@ -6,9 +6,31 @@ function addRem() {
   if (inputValue === '') {
     alert("You must write something!");
   } else {
+    //console.log("it's");
+    //var span = document.createElement("button");
+    //span.display = "none";
+    //span.type = "submit";
+    var form = document.createElement("form");
+    form.action = "/reminder";
+    form.method = "POST";
+    form.display = "none";
+    form.id = "cheese";
+  //  console.log("happening");
+    var input = document.createElement("input");
+    input.type="hidden";
+    input.display = "none";
+    input.name="rem";
+    input.value=inputValue;
+    //form.appendChild(span);
+    form.appendChild(input);
+    document.getElementById("salad").appendChild(form);
+    document.getElementById("cheese").submit();
+  //  console.log("now");
     document.getElementById("reminder-list").appendChild(li);
+    document.getElementById("myInput").value = "";
+
   }
-  document.getElementById("myInput").value = "";
+
 }
 
 var myNodelist = document.getElementsByClassName("reminder-item");
@@ -21,16 +43,16 @@ for (i = 0; i < myNodelist.length; i++) {
   var txt = document.createTextNode("\u00D7");
   span.className = "close";
   span.appendChild(txt);
-  form.action = "/deleterem"
-  form.method = "POST"
-  form.style = "display:inline;"
+  form.action = "/deleterem";
+  form.method = "POST";
+  form.style = "display:inline;";
   var input = document.createElement("input");
-  input.type="hidden"
-  input.name="node"
-  input.value=myNodelist[i].innerHTML
-  console.log(input.value)
-  form.appendChild(span)
-  form.appendChild(input)
+  input.type="hidden";
+  input.name="node";
+  input.value=myNodelist[i].innerHTML;
+  console.log(input.value);
+  form.appendChild(span);
+  form.appendChild(input);
   myNodelist[i].appendChild(form);
 }
 

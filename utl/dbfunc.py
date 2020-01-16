@@ -32,6 +32,10 @@ def update_user(username, field, newvalue):
 
 def addReminder(c,userID,text):
     nextIndex = int(countRows(c,"reminders"))
+    c.execute("SELECT reminder FROM reminders WHERE reminderID = %s" % nextIndex)
+    a = c.fetchone()
+    if a != None:
+        nextIndex += 1;
     c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(nextIndex,userID,text))
 
 def getReminders(c,userID):
