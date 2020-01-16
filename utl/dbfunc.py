@@ -169,7 +169,8 @@ def checkAnagrams(s):
     count = json.loads(q)['all']
     print(count)
     for i in range(len(count)):
-        if (count[i] == s):
+        print(count[i])
+        if (count[i].lower() == s):
             return True
     return False
 

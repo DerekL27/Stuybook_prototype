@@ -3,7 +3,7 @@ import urllib.request as urlrequest
 import json
 import sqlite3, os
 import random, string
-from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore, addReminder, getReminders, removeReminder
+from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore, addReminder, getReminders, removeReminder, updateAnagramsScore
 import utl.dbfunc as dbfunc
 
 
@@ -261,6 +261,7 @@ def anagrams():
     """Returns Anagrams Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
+    userID = session["userID"]
     str = dbfunc.randomLetters()
     print(str)
     split = [char for char in str]
@@ -272,12 +273,14 @@ def anagrams():
 def anagramsresults():
     if 'userID' not in session:
         redirect(url_for("login"))
+    userID = session["userID"]
     input = request.form['input']
     dic = request.form['original']
     list = dbfunc.printWords(dic)
     print(input)
-    if (dbfunc.checkAnagrams(dic)):
-        dbfunc.updateAnagramsScore(c,userID,len(input)*1)
+    if (dbfunc.checkAnagrams(input)):
+        print("hello")
+        updateAnagramsScore(c,userID,len(input)*1)
     return render_template('anagramsresults.html', input = input, q = list, point = len(input)*1)
 
 @app.route("/posting", methods=["POST"])
