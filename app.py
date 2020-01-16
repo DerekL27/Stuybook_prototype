@@ -199,6 +199,14 @@ def joingroup():
     addtoGroup(c, request.form['whichgroup'], session["userID"])
     return redirect(url_for('login'))
 
+@app.route("/<groupName>")
+def groupfeed(groupName):
+    if "userID" not in session:
+        return redirect(url_for('login'))
+    c.execute("SELECT members FROM groups WHERE groupName = '%s'" % groupName)
+    list = c.fetchall()[0][0]
+
+
 @app.route("/settings")
 def settings():
     if "userID" not in session:
