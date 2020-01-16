@@ -35,8 +35,11 @@ def addReminder(c,userID,text):
     c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(nextIndex,userID,text))
 
 def getReminders(c,userID):
-    c.execute("SELECT reminder FROM reminders WHERE userID = ?",(userID,))
+    c.execute("SELECT reminder FROM reminders WHERE userID = %s" % userID)
     return(c.fetchall())
+
+def removeReminder(c, userID, text):
+    c.execute("DELETE FROM reminders WHERE userID = %s AND reminder = '%s'" % (userID, text))
 
 def placeholderName(c,userID):
     nextIndex = int(countRows(c,"groups"))
