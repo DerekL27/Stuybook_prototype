@@ -101,10 +101,32 @@ Made profile picture preserve aspect ratio
 tammyC -- 2020-01-15 13:45
 Worked on anagrams & fixed profile
 
+graceM -- 2020-01-15 14:43
+Fixed profile picture aspect ratio
+Edited bootstrap in some arreas
+
+graceM -- 2020-01-15 18:21
+Moved editing bio javascript and making post javascript into different files
+Did a full diagnostic
+Started to implement reminders
+
+graceM -- 2020-01-15 20:06
+Fully finished reminders, complete with backend
+Started working on groups
+
 tammyC -- 2020-01-15 21:32
 Successfully made anagrams game & connected with database
+
+graceM -- 2020-01-15 22:43
+User now able to create groups and join other groups
+Changed idea from posting in groups to being able to see who is a member of each group
 
 tammyC -- 2020-01-15 22:57
 PM Leung went to sleep (ahem) so Grace and I updated design doc.
   - We took out Deck of Cards Superhero Game & Budgeting.
   - Grace resolved JavaScript issue by creating multiple js files.
+
+graceM -- 2020-01-15 23:58
+Finished groups, and updated database
+Tested the website entirely
+Made sure to commit very often because PM Buford went to sleep
