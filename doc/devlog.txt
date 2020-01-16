@@ -82,7 +82,7 @@ Started working on posting stuff
 derekL -- 2020-01-14 20:14 ==> 2020-01-15 00:34
 Did schedule stuff and did a bit more posting stuff
 
-chenT -- 2020-01-14 23:03
+tammyC -- 2020-01-14 23:03
 Fixed up games page, trivia & continued to work on anagrams
 
 graceM -- 2020-01-14 23:34
@@ -98,13 +98,13 @@ Fixed the bugs
 derekL -- 2020-01-15 10:45
 Made profile picture preserve aspect ratio
 
-chenT -- 2020-01-15 13:45
+tammyC -- 2020-01-15 13:45
 Worked on anagrams & fixed profile
 
-chenT -- 2020-01-15 21:32
+tammyC -- 2020-01-15 21:32
 Successfully made anagrams game & connected with database
 
-chenT -- 2020-01-15 22:57
+tammyC -- 2020-01-15 22:57
 PM Leung went to sleep (ahem) so Grace and I updated design doc.
   - We took out Deck of Cards Superhero Game & Budgeting.
   - Grace resolved JavaScript issue by creating multiple js files.
