@@ -1,0 +1,23 @@
+{% extends "basenav.html" %}
+{% block title %} Anagrams {% endblock %}
+
+{% block body %}
+<script type="text/javascript" src="/static/js/funky-town.js"></script>
+
+<div class="my-4 container text-center" >
+  <h1> Anagrams Game </h1>
+</div>
+<div class="container border border-info" style="background-color: #97E2F4;"> <br>
+  <div class='text-center'> <h4> Your Answer: </h4> {{input}}  </div>
+  <div class='text-center'> <h4> Acceptable Answers: </h4>
+    <ol> |
+    {% for i in q %}
+         {{i|safe}} |
+    {% endfor %}
+    </ol>
+  </div>
+</div>
+
+
+
+{% endblock %}

@@ -8,46 +8,23 @@
   <h1> Anagrams Game </h1>
   <p class="lead"> Challenge your #bigBrain with some SNAPPY-WORD-SCRAMMBLING! Let's see what you know. </p>
 </div>
-
-<div class="container border border-info" style="background-color: #97E2F4;">
-  <br>
+<div class="container border border-info text-center" style="background-color: #97E2F4;"> <br>
   <div class="card-group">
-    <div class="card align-items-center">
-      <h3>  E </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  R </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  R </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  T </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  P </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  O </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  A </h3>
-    </div>
-    <div class="card align-items-center">
-      <h3>  D </h3>
-    </div>
-  </div>
-  <br>
-  <div id="myDIV" class="header text-center">
-    <h4>List of Words You Found</h4>
-    <input type="text" id="myInput" placeholder="">
-    <div class ="btn btn-secondary" onclick="newElement()" class="addBtn">Add</div>
-  </div>
-  <ul id="myUL" class="text-center">
-  </ul>
-
+  {% for i in q %}
+      <div class="card align-items-center">
+          <h3>{{i|safe}}</h3>
+      </div>
+  {% endfor %}
 </div>
-
-
+    <br>
+    <form method="POST" action="/anagramsresults">
+      <h4>What Are the Letters? </h4>
+      <input type="text" id="myInput" placeholder="" name="original">
+      <h4>What Word Do You See? </h4>
+      <input type="text" id="myInput" placeholder="" name="input">
+      <button type="submit" class="btn btn-success btn-sm">Submit</button> <br>
+    </form>
+    <br>
+  </div>
 
 {% endblock %}

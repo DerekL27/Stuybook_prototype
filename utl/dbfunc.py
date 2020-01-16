@@ -2,6 +2,8 @@ import urllib.request as request
 import json
 import marshal
 import sqlite3
+import string
+import random
 
 DB_FILE = "database.db"
 
@@ -37,6 +39,7 @@ def addReminder(c,userID,text):
     if a != None:
         nextIndex += 1;
     c.execute("INSERT INTO reminders VALUES (?, ?, ?)",(nextIndex,userID,text))
+
 
 def getReminders(c,userID):
     c.execute("SELECT reminder FROM reminders WHERE userID = %s" % userID)
@@ -166,3 +169,12 @@ def checkAnagrams(s):
         if (count[i] == s):
             return True
     return False
+
+def randomLetters():
+    return ''.join(random.sample(string.ascii_uppercase,8))
+
+def printWords(s):
+    link = "http://www.anagramica.com/all/:" + s
+    q = request.urlopen(link).read()
+    count = json.loads(q)['all']
+    return count

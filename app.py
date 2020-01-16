@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import urllib.request as urlrequest
 import json
 import sqlite3, os
-import random
+import random, string
 from utl.dbfunc import setup, createUser, getSchedule, update_user, getAllPosts, addPost, updateSchedule, getAllLeaderboard, placeholderName, updateTriviaScore, addReminder, getReminders, removeReminder
 import utl.dbfunc as dbfunc
 
@@ -261,7 +261,22 @@ def anagrams():
     """Returns Anagrams Page"""
     if "userID" not in session:
         return redirect(url_for('login'))
-    return render_template('anagrams.html', user=session["username"])
+    str = dbfunc.randomLetters()
+    print(str)
+    split = [char for char in str]
+    print(split)
+    print(dbfunc.printWords(str))
+    return render_template('anagrams.html', user=session["username"], q = split)
+
+@app.route("/anagramsresults", methods=["POST"])
+def anagramsresults():
+    if 'userID' not in session:
+        redirect(url_for("login"))
+    input = request.form['input']
+    dic = request.form['original']
+    list = dbfunc.printWords(dic)
+    print(input)
+    return render_template('anagramsresults.html', input = input, q = list)
 
 @app.route("/posting", methods=["POST"])
 def posting():
