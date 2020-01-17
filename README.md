@@ -18,7 +18,7 @@ Our project is aimed towards providing a fully functional networking site for St
   - We use this API to get trivia questions for our trivia game. It will provide a collection of trivia questions. 
 
 ## Video Demo
-[video demo here](https://www.youtube.com/) 
+[Video Demo here](https://youtu.be/zODxOcEkZyw) 
 
 ## How to Run the Project:
 - We are assuming that the user has installed Python3 and pip in their environment
